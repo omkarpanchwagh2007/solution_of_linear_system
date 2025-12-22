@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theory - Linear System Solver | PCCOE Virtual Labs</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header Styles - Matching index.html */
+        header {
+            background: linear-gradient(135deg, #2c3e50, #1a2530);
+            color: white;
+            padding: 15px 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .pcce-logo-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding-right: 25px;
+            border-right: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .pcce-logo-img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            border-radius: 8px;
+            background-color: white;
+            padding: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .pcce-logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pcce-logo-text .main {
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .pcce-logo-text .sub {
+            font-size: 12px;
+            color: #ecf0f1;
+            opacity: 0.9;
+            margin-top: 2px;
+        }
+
+        .virtual-labs-logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .virtual-labs-logo i {
+            font-size: 32px;
+            color: #3498db;
+        }
+
+        .virtual-labs-logo h1 {
+            font-size: 26px;
+            font-weight: 600;
+        }
+
+        .virtual-labs-logo span {
+            color: #3498db;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .user-info i {
+            font-size: 20px;
+            color: #3498db;
+        }
+
+        /* Navigation Menu */
+        .nav-menu {
+            background: #2c3e50;
+            padding: 10px 0;
+            margin-top: 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-menu ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+            justify-content: center;
+        }
+
+        .nav-menu a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu a:hover,
+        .nav-menu a.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px 0;
+        }
+
+        .content-header {
+            background: white;
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+        }
+
+        .breadcrumb {
+            font-size: 14px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+
+        .breadcrumb a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            margin: 0 5px;
+        }
+
+        .content-header h2 {
+            font-size: 28px;
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .content-header p {
+            color: #7f8c8d;
+            font-size: 1.1rem;
+        }
+
+        /* Theory Content */
+        .theory-content {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .theory-main {
+            flex: 2;
+            background: white;
+            border-radius: 8px;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .theory-main h3 {
+            color: #2c3e50;
+            font-size: 24px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .theory-main h3 i {
+            color: #3498db;
+        }
+
+        .theory-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .theory-highlight {
+            background: linear-gradient(135deg, #e8f4fc, #f0f7ff);
+            border-left: 5px solid #3498db;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+
+        .theory-highlight p {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: #2c3e50;
+            margin-bottom: 15px;
+        }
+
+        .theory-highlight ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .theory-highlight li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .theory-highlight li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #3498db;
+            font-weight: bold;
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+
+        /* Equation Styling */
+        .equation {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            text-align: center;
+            font-family: 'Cambria Math', serif;
+            font-size: 1.2rem;
+            color: #2c3e50;
+        }
+
+        /* Sidebar */
+        .theory-sidebar {
+            flex: 1;
+        }
+
+        .info-box {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .info-box h4 {
+            color: #2c3e50;
+            font-size: 18px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-box h4 i {
+            color: #3498db;
+        }
+
+        .info-box p {
+            color: #666;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .key-concepts {
+            background: #f8f9fa;
+            border: 1px solid #e9ecef;
+            padding: 15px;
+            border-radius: 6px;
+        }
+
+        .key-concepts li {
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            padding: 20px 0;
+            text-align: center;
+            color: #7f8c8d;
+            font-size: 14px;
+            border-top: 1px solid #eee;
+            background: white;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .footer-logo {
+            display: inline-block;
+            margin: 0 5px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .theory-content {
+                flex-direction: column;
+            }
+            
+            .header-container {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .logo-section {
+                flex-direction: column;
+                gap: 20px;
+                width: 100%;
+            }
+            
+            .pcce-logo-container {
+                border-right: none;
+                padding-right: 0;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+                padding-bottom: 20px;
+                justify-content: center;
+                width: 100%;
+            }
+            
+            .virtual-labs-logo {
+                justify-content: center;
+            }
+            
+            .nav-menu ul {
+                flex-wrap: wrap;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .theory-main, .info-box {
+                padding: 25px;
+            }
+            
+            .content-header h2 {
+                font-size: 24px;
+            }
+            
+            .theory-main h3 {
+                font-size: 20px;
+            }
+            
+            .pcce-logo-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .pcce-logo-img {
+                width: 70px;
+                height: 70px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .theory-main, .info-box {
+                padding: 20px;
+            }
+            
+            .content-header {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo-section">
+                <!-- PCOE Logo -->
+                <div class="pcce-logo-container">
+                    <img src="https://raw.githubusercontent.com/dineshkute90/virtual_lab_LAUC/main/pccoe.png" 
+                         alt="PCOE Logo" 
+                         class="pcce-logo-img"
+                         id="pcceLogo"
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/60x60/2c3e50/ffffff?text=PCOE';">
+                    <div class="pcce-logo-text">
+                        <div class="main">APPLIED SCIENCES & HUMANITIES</div>
+                        <div class="sub">Pimpri Chinchwad College of Engineering</div>
+                    </div>
+                </div>
+                
+                <!-- Virtual Labs Logo -->
+                <div class="virtual-labs-logo">
+                    <i class="fas fa-flask"></i>
+                    <h1>Virtual <span>Labs</span></h1>
+                </div>
+            </div>
+            
+            <div class="user-info">
+                <i class="fas fa-user-circle"></i>
+                <span>Welcome, Student</span>
+            </div>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="nav-menu">
+            <div class="container">
+                <ul>
+                    <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="aim.html"><i class="fas fa-bullseye"></i> Aim</a></li>
+                    <li><a href="theory.html" class="active"><i class="fas fa-book"></i> Theory</a></li>
+                    <li><a href="pretest.html"><i class="fas fa-question-circle"></i> Pretest</a></li>
+                    <li><a href="simulation.html"><i class="fas fa-calculator"></i> Simulation</a></li>
+                    <li><a href="posttest.html"><i class="fas fa-clipboard-check"></i> Posttest</a></li>
+                    <li><a href="feedback.html"><i class="fas fa-comment-alt"></i> Feedback</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container main-content">
+        <!-- Content Header -->
+        <div class="content-header">
+            <div class="breadcrumb">
+                <a href="index.html">Home</a> <span>></span> Theory
+            </div>
+            <h2>Theoretical Background</h2>
+            <p>Linear System Solver Virtual Lab - Engineering Mathematics</p>
+        </div>
+
+        <!-- Theory Content -->
+        <div class="theory-content">
+            <div class="theory-main">
+                <h3><i class="fas fa-book"></i> Theory of Linear Systems</h3>
+                
+                <div class="theory-text">
+                    <p>A system of linear equations is a collection of one or more linear equations involving the same set of variables. For example, a system with <em>m</em> equations and <em>n</em> unknowns can be written in matrix form as <strong>Ax = B</strong>, where <strong>A</strong> is an <em>m × n</em> coefficient matrix, <strong>x</strong> is an <em>n × 1</em> column vector of unknowns, and <strong>B</strong> is an <em>m × 1</em> column vector of constants.</p>
+                    
+                    <div class="equation">
+                        a₁₁x₁ + a₁₂x₂ + ... + a₁ₙxₙ = b₁<br>
+                        a₂₁x₁ + a₂₂x₂ + ... + a₂ₙxₙ = b₂<br>
+                        ⋮<br>
+                        aₘ₁x₁ + aₘ₂x₂ + ... + aₘₙxₙ = bₘ
+                    </div>
+                    
+                    <p>Solutions to linear systems can be classified as:</p>
+                </div>
+
+                <div class="theory-highlight">
+                    <p><strong>Types of Solutions:</strong></p>
+                    <ul>
+                        <li><strong>Unique Solution:</strong> When the system has exactly one solution (consistent and independent)</li>
+                        <li><strong>No Solution:</strong> When the system has no solution (inconsistent)</li>
+                        <li><strong>Infinitely Many Solutions:</strong> When the system has an infinite number of solutions (consistent but dependent)</li>
+                    </ul>
+                </div>
+
+                <h3><i class="fas fa-calculator"></i> Gaussian Elimination Method</h3>
+                
+                <div class="theory-text">
+                    <p>Gaussian elimination is a systematic method for solving systems of linear equations. It involves three types of elementary row operations:</p>
+                    
+                    <div class="theory-highlight">
+                        <p><strong>Elementary Row Operations:</strong></p>
+                        <ul>
+                            <li><strong>Swapping:</strong> Interchanging two rows</li>
+                            <li><strong>Scaling:</strong> Multiplying a row by a non-zero constant</li>
+                            <li><strong>Row Addition:</strong> Adding a multiple of one row to another row</li>
+                        </ul>
+                    </div>
+                    
+                    <p>The goal of Gaussian elimination is to transform the augmented matrix [A|B] into row-echelon form or reduced row-echelon form through these operations.</p>
+                    
+                    <h4><i class="fas fa-sync-alt"></i> Partial Pivoting</h4>
+                    <p>Partial pivoting is a technique used to improve numerical stability by selecting the largest absolute value element in the current column as the pivot element. This helps reduce rounding errors when solving systems with floating-point arithmetic.</p>
+                </div>
+
+                <h3><i class="fas fa-chart-line"></i> Geometric Interpretation</h3>
+                
+                <div class="theory-text">
+                    <p>Linear systems have intuitive geometric interpretations:</p>
+                    
+                    <div class="theory-highlight">
+                        <ul>
+                            <li>In 2D, each equation represents a line. The solution is the intersection point(s)</li>
+                            <li>In 3D, each equation represents a plane. The solution is the intersection line(s) or point</li>
+                            <li>Matrix transformations can be visualized as vector field operations</li>
+                        </ul>
+                    </div>
+                    
+                    <p>For a 2×2 system:</p>
+                    
+                    <div class="equation">
+                        a₁₁x + a₁₂y = b₁<br>
+                        a₂₁x + a₂₂y = b₂
+                    </div>
+                    
+                    <p>The solution corresponds to the intersection point of the two lines represented by these equations. If the lines are parallel (no intersection), the system has no solution. If the lines coincide (identical), the system has infinitely many solutions.</p>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="theory-sidebar">
+                <div class="info-box">
+                    <h4><i class="fas fa-info-circle"></i> Key Concepts</h4>
+                    <ul class="key-concepts">
+                        <li>Linear Equations</li>
+                        <li>Matrix Representation</li>
+                        <li>Row Echelon Form</li>
+                        <li>Rank of a Matrix</li>
+                        <li>Determinants</li>
+                        <li>Vector Spaces</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h4><i class="fas fa-history"></i> Historical Context</h4>
+                    <p>The method of Gaussian elimination is named after the German mathematician Carl Friedrich Gauss, though similar methods were known to Chinese mathematicians as early as 179 CE.</p>
+                </div>
+
+                <div class="info-box">
+                    <h4><i class="fas fa-lightbulb"></i> Applications</h4>
+                    <p>Linear systems are fundamental in:</p>
+                    <ul class="key-concepts">
+                        <li>Circuit Analysis</li>
+                        <li>Structural Engineering</li>
+                        <li>Computer Graphics</li>
+                        <li>Economics Modeling</li>
+                        <li>Machine Learning</li>
+                    </ul>
+                </div>
+
+                <div class="info-box">
+                    <h4><i class="fas fa-exclamation-triangle"></i> Important Notes</h4>
+                    <p>• Gaussian elimination requires O(n³) operations for an n×n system</p>
+                    <p>• Partial pivoting enhances numerical stability</p>
+                    <p>• Integer inputs yield exact integer solutions when possible</p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="container">
+        <p>Virtual Labs &copy; 2025 | Applied Sciences & Humanities Department | 
+           <span class="footer-logo">Pimpri Chinchwad College of Engineering</span>
+        </p>
+    </footer>
+
+    <script>
+        // Image loading debug
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoImg = document.getElementById('pcceLogo');
+            
+            logoImg.onload = function() {
+                console.log('✓ PCOE logo loaded successfully');
+            };
+            
+            logoImg.onerror = function() {
+                console.log('✗ PCOE logo failed to load, using fallback');
+            };
+            
+            // Set active navigation based on current page
+            const currentPage = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-menu a');
+            
+            navLinks.forEach(link => {
+                const linkHref = link.getAttribute('href');
+                if (linkHref === currentPage) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

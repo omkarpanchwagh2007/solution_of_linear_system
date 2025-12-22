@@ -1,0 +1,2543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MatrixLab Pro | Linear System Solver</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: #0f172a;
+            color: #f1f5f9;
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(99, 102, 241, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 0%, rgba(236, 72, 153, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(14, 165, 233, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, rgba(34, 197, 94, 0.15) 0%, transparent 50%);
+        }
+        
+        /* Page Transition */
+        .page {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .page.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        /* Introduction Page */
+        .intro-page {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Hero Section */
+        .hero-section {
+            margin-bottom: 60px;
+            padding: 40px;
+            background: linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.9) 0%, 
+                rgba(30, 41, 59, 0.9) 50%, 
+                rgba(15, 23, 42, 0.9) 100%);
+            border-radius: 24px;
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            width: 100%;
+        }
+        
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, 
+                #6366f1, #8b5cf6, #ec4899, #f59e0b, #10b981, #6366f1);
+            background-size: 300% 100%;
+            animation: shimmer 3s infinite linear;
+        }
+        
+        @keyframes shimmer {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 300% 0%; }
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 30px;
+            position: relative;
+        }
+        
+        .logo-circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 30px;
+            box-shadow: 
+                0 15px 35px rgba(99, 102, 241, 0.4),
+                inset 0 1px 1px rgba(255, 255, 255, 0.2);
+            position: relative;
+            animation: pulse 4s infinite ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .logo-circle::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6, #ec4899);
+            z-index: -1;
+            opacity: 0.5;
+            filter: blur(15px);
+        }
+        
+        .logo-icon {
+            color: white;
+            font-size: 48px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+        }
+        
+        .header-text {
+            text-align: left;
+        }
+        
+        .main-title {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(90deg, #f1f5f9, #cbd5e1, #94a3b8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 10px;
+            letter-spacing: -0.5px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            line-height: 1.1;
+        }
+        
+        .main-title span {
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .tagline {
+            font-size: 1.5rem;
+            color: #cbd5e1;
+            font-weight: 300;
+            letter-spacing: 0.5px;
+            max-width: 600px;
+        }
+        
+        .tagline-highlight {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+        
+        /* Introduction Cards */
+        .intro-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            width: 100%;
+            margin-bottom: 60px;
+        }
+        
+        .intro-card {
+            background: linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.85) 0%, 
+                rgba(30, 41, 59, 0.85) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            overflow: hidden;
+            position: relative;
+            height: 100%;
+        }
+        
+        .intro-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+        
+        .intro-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(99, 102, 241, 0.5), 
+                transparent);
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            color: #6366f1;
+            margin-bottom: 20px;
+            display: inline-block;
+            background: rgba(99, 102, 241, 0.1);
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        
+        .card-title {
+            color: #f1f5f9;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 15px;
+        }
+        
+        .card-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, transparent);
+        }
+        
+        .card-content {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .card-content ul {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+        
+        .card-content li {
+            margin-bottom: 10px;
+            position: relative;
+        }
+        
+        .card-content li::before {
+            content: '→';
+            color: #6366f1;
+            position: absolute;
+            left: -20px;
+            font-weight: bold;
+        }
+        
+        /* Start Button */
+        .start-container {
+            margin-top: 40px;
+            text-align: center;
+        }
+        
+        .start-btn {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            border: none;
+            padding: 22px 50px;
+            border-radius: 16px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.4);
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .start-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            transition: left 0.7s;
+        }
+        
+        .start-btn:hover {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+            transform: scale(1.05);
+            box-shadow: 0 15px 35px rgba(99, 102, 241, 0.6);
+        }
+        
+        .start-btn:hover::before {
+            left: 100%;
+        }
+        
+        .start-btn i {
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .start-subtitle {
+            color: #94a3b8;
+            margin-top: 20px;
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+        
+        /* Calculator Page */
+        .calculator-page {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        /* Navigation Header */
+        .nav-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            padding: 20px 30px;
+            background: linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.9) 0%, 
+                rgba(30, 41, 59, 0.9) 100%);
+            border-radius: 20px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .nav-logo-icon {
+            font-size: 28px;
+            color: #6366f1;
+            margin-right: 15px;
+        }
+        
+        .nav-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .back-btn {
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            color: #cbd5e1;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+        }
+        
+        .back-btn:hover {
+            background: rgba(99, 102, 241, 0.2);
+            color: #f1f5f9;
+            border-color: #6366f1;
+            transform: translateX(-5px);
+        }
+        
+        .back-btn i {
+            margin-right: 10px;
+        }
+        
+        /* Calculator Content */
+        .content-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .main-content {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .sidebar {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.85) 0%, 
+                rgba(30, 41, 59, 0.85) 100%);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 
+                0 10px 30px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            margin-bottom: 30px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);
+            border-color: rgba(99, 102, 241, 0.4);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(99, 102, 241, 0.5), 
+                transparent);
+        }
+        
+        .section-title {
+            color: #f1f5f9;
+            border-bottom: 2px solid rgba(99, 102, 241, 0.3);
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 1.6rem;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .section-title i {
+            margin-right: 12px;
+            color: #60a5fa;
+            font-size: 1.3rem;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, #6366f1, transparent);
+        }
+        
+        /* Input Controls */
+        .matrix-controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 30px;
+            padding: 25px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 16px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            min-width: 150px;
+        }
+        
+        label {
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #cbd5e1;
+            font-size: 1.05rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        label i {
+            margin-right: 8px;
+            color: #60a5fa;
+        }
+        
+        input[type="number"] {
+            padding: 14px 18px;
+            background-color: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+            font-size: 1rem;
+            color: #f1f5f9;
+            transition: all 0.3s;
+        }
+        
+        input[type="number"]:focus {
+            border-color: #6366f1;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            background-color: rgba(15, 23, 42, 1);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.2), 
+                transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn:hover {
+            background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .btn i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+        
+        /* Matrix Inputs */
+        .matrix-inputs {
+            margin-bottom: 30px;
+        }
+        
+        .matrix-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 25px;
+        }
+        
+        .matrix {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .matrix-title {
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: #60a5fa;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .matrix-title i {
+            margin-right: 10px;
+        }
+        
+        .matrix-grid {
+            display: grid;
+            gap: 12px;
+            padding: 20px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 16px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        
+        .matrix-input {
+            width: 100%;
+            padding: 14px;
+            background-color: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.05rem;
+            color: #f1f5f9;
+            transition: all 0.3s;
+        }
+        
+        .matrix-input:focus {
+            border-color: #6366f1;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+            background-color: rgba(15, 23, 42, 1);
+        }
+        
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .btn-solve {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            flex: 2;
+        }
+        
+        .btn-solve:hover {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        .btn-reset {
+            background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%);
+            flex: 1;
+        }
+        
+        .btn-reset:hover {
+            background: linear-gradient(135deg, #4b5563 0%, #374151 100%);
+            box-shadow: 0 8px 20px rgba(107, 114, 128, 0.4);
+        }
+        
+        .btn-example {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            flex: 1;
+        }
+        
+        .btn-example:hover {
+            background: linear-gradient(135deg, #d97706 0%, #b45309 100%);
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+        }
+        
+        /* Output Content */
+        .output-content {
+            padding: 25px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 16px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            min-height: 300px;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+        
+        .output-placeholder {
+            color: #94a3b8;
+            font-style: italic;
+            text-align: center;
+            margin-top: 90px;
+            font-size: 1.2rem;
+        }
+        
+        .solution-step {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed rgba(99, 102, 241, 0.3);
+        }
+        
+        .solution-step:last-child {
+            border-bottom: none;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            color: #60a5fa;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .step-title i {
+            margin-right: 10px;
+        }
+        
+        .solution-matrix {
+            display: inline-block;
+            padding: 12px 20px;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 12px;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            margin: 8px 0;
+            font-family: 'SF Mono', 'Monaco', 'Consolas', monospace;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .solution-value {
+            font-weight: 700;
+            color: #60a5fa;
+            background-color: rgba(96, 165, 250, 0.1);
+            padding: 2px 8px;
+            border-radius: 6px;
+        }
+        
+        .error-message {
+            background-color: rgba(239, 68, 68, 0.15);
+            color: #fecaca;
+            padding: 18px;
+            border-radius: 12px;
+            margin-top: 15px;
+            border-left: 5px solid #ef4444;
+            font-weight: 500;
+        }
+        
+        /* Graph Styles */
+        .graph-container {
+            margin-top: 20px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            background: rgba(15, 23, 42, 0.95);
+            height: 450px;
+            position: relative;
+        }
+        
+        .graph-title {
+            padding: 15px 20px;
+            background: rgba(30, 41, 59, 0.95);
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            font-weight: 600;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .graph-title i {
+            color: #60a5fa;
+            margin-right: 10px;
+        }
+        
+        .graph-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #94a3b8;
+            font-style: italic;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        /* Graph Tabs */
+        .graph-tabs {
+            display: flex;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.3);
+            margin-bottom: 15px;
+            background: rgba(30, 41, 59, 0.7);
+            border-radius: 12px 12px 0 0;
+            overflow: hidden;
+        }
+        
+        .graph-tab {
+            padding: 15px 24px;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            flex: 1;
+            text-align: center;
+        }
+        
+        .graph-tab:hover {
+            color: #f1f5f9;
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .graph-tab.active {
+            color: #60a5fa;
+            background: rgba(96, 165, 250, 0.1);
+        }
+        
+        .graph-tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #6366f1, #60a5fa);
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: linear-gradient(135deg, 
+                rgba(15, 23, 42, 0.85) 0%, 
+                rgba(30, 41, 59, 0.85) 100%);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            margin-bottom: 30px;
+        }
+        
+        .info-title {
+            color: #60a5fa;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .info-title i {
+            margin-right: 12px;
+        }
+        
+        .steps-list {
+            padding-left: 20px;
+            margin: 15px 0;
+        }
+        
+        .steps-list li {
+            margin-bottom: 12px;
+            color: #cbd5e1;
+        }
+        
+        .steps-list li strong {
+            color: #60a5fa;
+        }
+        
+        .highlight {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+        
+        .note-box {
+            background-color: rgba(96, 165, 250, 0.1);
+            border-left: 4px solid #60a5fa;
+            padding: 18px;
+            border-radius: 12px;
+            margin: 20px 0;
+            font-style: italic;
+        }
+        
+        .project-info {
+            color: #94a3b8;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        
+        /* Integer Results */
+        .integer-result {
+            color: #10b981;
+            font-weight: 700;
+        }
+        
+        .matrix-element {
+            display: inline-block;
+            min-width: 70px;
+            text-align: center;
+            padding: 5px;
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            color: #94a3b8;
+            font-size: 0.95rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.2);
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 20px;
+        }
+        
+        .footer-logo {
+            color: #6366f1;
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+        
+        .footer-text {
+            margin-top: 10px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .content-wrapper {
+                flex-direction: column;
+            }
+            
+            .main-title {
+                font-size: 3rem;
+            }
+            
+            .matrix-container {
+                flex-direction: column;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+            
+            .intro-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-container {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .logo-circle {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+            
+            .header-text {
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .card {
+                padding: 20px;
+            }
+            
+            .main-title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .intro-card {
+                padding: 25px;
+            }
+            
+            .card-title {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Introduction Page -->
+    <div id="intro-page" class="page active">
+        <div class="intro-page">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="logo-container">
+                    <div class="logo-circle">
+                        <i class="fas fa-infinity logo-icon"></i>
+                    </div>
+                    <div class="header-text">
+                        <h1 class="main-title">Matrix<span>Lab</span> Pro</h1>
+                        <p class="tagline">Advanced <span class="tagline-highlight">Linear System Solver</span> with Interactive 3D Visualization</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Introduction Cards -->
+            <div class="intro-cards">
+                <!-- Card 1: About -->
+                <div class="intro-card">
+                    <div class="card-icon">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <h2 class="card-title">About MatrixLab Pro</h2>
+                    <div class="card-content">
+                        <p>MatrixLab Pro is an advanced linear system solver that combines precise mathematical computation with interactive 3D visualization. Solve systems of equations in the form <span class="highlight">Ax = B</span> and visualize the results in multiple dimensions.</p>
+                        <p>The solver preserves <span class="highlight">integer results</span> when all inputs are integers and the solution is exact. This makes it ideal for educational purposes and mathematical exploration.</p>
+                    </div>
+                </div>
+                
+                <!-- Card 2: Steps to Calculate -->
+                <div class="intro-card">
+                    <div class="card-icon">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <h2 class="card-title">Steps to Calculate Linear Solutions</h2>
+                    <div class="card-content">
+                        <p>The solver uses Gaussian elimination with partial pivoting:</p>
+                        <ul>
+                            <li><strong>Input Validation:</strong> Check all matrix entries</li>
+                            <li><strong>Partial Pivoting:</strong> Swap rows for numerical stability</li>
+                            <li><strong>Forward Elimination:</strong> Create upper triangular matrix</li>
+                            <li><strong>Back Substitution:</strong> Solve for variables</li>
+                            <li><strong>Result Formatting:</strong> Display integer results when exact</li>
+                            <li><strong>Visualization:</strong> Generate interactive 2D/3D graphs</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Card 3: How to Use -->
+                <div class="intro-card">
+                    <div class="card-icon">
+                        <i class="fas fa-user-guide"></i>
+                    </div>
+                    <h2 class="card-title">How to Use This Website</h2>
+                    <div class="card-content">
+                        <ol style="padding-left: 20px;">
+                            <li>Click <strong>"Start Solving"</strong> to begin</li>
+                            <li>Set matrix dimensions using the input controls</li>
+                            <li>Enter values for matrices A and B</li>
+                            <li>Click <strong>"Solve & Visualize"</strong> to calculate</li>
+                            <li>View solution steps and results</li>
+                            <li>Switch between 2D, 3D, and Vector visualizations</li>
+                            <li>Use <strong>"Load Example"</strong> for a sample problem</li>
+                        </ol>
+                        <div class="note-box" style="margin-top: 20px;">
+                            <i class="fas fa-lightbulb"></i> <strong>Tip:</strong> For 2D visualization use 2x2 matrix A and 2x1 matrix B. For 3D visualization use 3x3 matrix A and 3x1 matrix B.
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Start Button -->
+            <div class="start-container">
+                <button id="start-btn" class="start-btn">
+                    <i class="fas fa-rocket"></i> Start Solving
+                </button>
+                <p class="start-subtitle">Click to begin solving linear systems with interactive visualization</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Calculator Page -->
+    <div id="calculator-page" class="page">
+        <div class="calculator-page">
+            <!-- Navigation Header -->
+            <div class="nav-header">
+                <div class="nav-logo">
+                    <i class="fas fa-infinity nav-logo-icon"></i>
+                    <h2 class="nav-title">MatrixLab Pro Calculator</h2>
+                </div>
+                <button id="back-btn" class="back-btn">
+                    <i class="fas fa-arrow-left"></i> Back to Introduction
+                </button>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="content-wrapper">
+                <div class="main-content">
+                    <!-- Input Section -->
+                    <div class="card">
+                        <h2 class="section-title"><i class="fas fa-keyboard"></i> Input Matrices</h2>
+                        
+                        <div class="matrix-controls">
+                            <div class="control-group">
+                                <label for="rows"><i class="fas fa-arrows-alt-v"></i> Matrix A Rows:</label>
+                                <input type="number" id="rows" min="1" max="6" value="3">
+                            </div>
+                            <div class="control-group">
+                                <label for="cols"><i class="fas fa-arrows-alt-h"></i> Matrix A Columns:</label>
+                                <input type="number" id="cols" min="1" max="6" value="3">
+                            </div>
+                            <div class="control-group">
+                                <label for="b-cols"><i class="fas fa-columns"></i> Matrix B Columns:</label>
+                                <input type="number" id="b-cols" min="1" max="3" value="1">
+                            </div>
+                        </div>
+                        
+                        <button id="update-btn" class="btn">
+                            <i class="fas fa-sync-alt"></i> Update Matrix Dimensions
+                        </button>
+                        
+                        <div class="matrix-inputs">
+                            <div class="matrix-container">
+                                <div class="matrix">
+                                    <div class="matrix-title"><i class="fas fa-th"></i> Coefficient Matrix A</div>
+                                    <div id="matrix-a" class="matrix-grid">
+                                        <!-- Matrix A inputs will be generated here -->
+                                    </div>
+                                </div>
+                                
+                                <div class="matrix">
+                                    <div class="matrix-title"><i class="fas fa-th-large"></i> Constant Matrix B</div>
+                                    <div id="matrix-b" class="matrix-grid">
+                                        <!-- Matrix B inputs will be generated here -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="action-buttons">
+                            <button id="solve-btn" class="btn btn-solve">
+                                <i class="fas fa-play"></i> Solve & Visualize
+                            </button>
+                            <button id="example-btn" class="btn btn-example">
+                                <i class="fas fa-lightbulb"></i> Load 3D Example
+                            </button>
+                            <button id="reset-btn" class="btn btn-reset">
+                                <i class="fas fa-redo"></i> Reset All
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Solution Section -->
+                    <div class="card">
+                        <h2 class="section-title"><i class="fas fa-chart-line"></i> Solution</h2>
+                        <div id="output" class="output-content">
+                            <div class="output-placeholder">
+                                <i class="fas fa-arrow-left" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>
+                                Enter your matrices and click "Solve & Visualize" to see the solution and graph.
+                                <div style="margin-top: 20px; font-size: 1rem;">
+                                    <i class="fas fa-info-circle"></i> Integer inputs will yield exact integer results when possible
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Visualization Section -->
+                    <div class="card">
+                        <h2 class="section-title"><i class="fas fa-chart-area"></i> System Visualization</h2>
+                        
+                        <div class="graph-tabs">
+                            <button class="graph-tab active" data-tab="2d-graph">2D Graph</button>
+                            <button class="graph-tab" data-tab="3d-graph">3D Graph</button>
+                            <button class="graph-tab" data-tab="vector-graph">Vector Field</button>
+                        </div>
+                        
+                        <div id="2d-graph" class="tab-content active">
+                            <div class="graph-title">
+                                <div><i class="fas fa-chart-line"></i> 2D Linear Equations Graph</div>
+                            </div>
+                            <div id="graph2d" class="graph-container">
+                                <div class="graph-placeholder">
+                                    <div>
+                                        <i class="fas fa-chart-line" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>
+                                        Solve a system to visualize it in 2D.<br>
+                                        For 2D visualization, use a 2x2 matrix A and 2x1 matrix B.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="3d-graph" class="tab-content">
+                            <div class="graph-title">
+                                <div><i class="fas fa-cube"></i> 3D Plane Intersection</div>
+                            </div>
+                            <div id="graph3d" class="graph-container">
+                                <div class="graph-placeholder">
+                                    <div>
+                                        <i class="fas fa-cube" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>
+                                        Solve a 3x3 system to visualize plane intersection in 3D.<br>
+                                        For 3D visualization, use a 3x3 matrix A and 3x1 matrix B.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="vector-graph" class="tab-content">
+                            <div class="graph-title">
+                                <div><i class="fas fa-arrows-alt"></i> Vector Field Transformation</div>
+                            </div>
+                            <div id="graphVector" class="graph-container">
+                                <div class="graph-placeholder">
+                                    <div>
+                                        <i class="fas fa-arrows-alt" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>
+                                        Visualize how matrix A transforms vectors in 2D space.<br>
+                                        Shows original vectors and transformed vectors.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Quick Help -->
+                    <div class="card">
+                        <h2 class="info-title"><i class="fas fa-question-circle"></i> Quick Help</h2>
+                        <p class="project-info"><strong>Matrix Dimensions:</strong> Set rows and columns for matrix A and columns for matrix B.</p>
+                        <p class="project-info"><strong>Enter Values:</strong> Fill in the matrix cells with your coefficients and constants.</p>
+                        <p class="project-info"><strong>Solve:</strong> Click "Solve & Visualize" to calculate and graph the solution.</p>
+                        <div class="note-box">
+                            <i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Use "Load 3D Example" for a sample 3x3 system with integer solution.
+                        </div>
+                    </div>
+                    
+                    <!-- Integer Results -->
+                    <div class="card">
+                        <h2 class="info-title"><i class="fas fa-calculator"></i> Integer Results</h2>
+                        <p class="project-info">This solver preserves integer results when all inputs are integers and the solution is exact. Look for <span class="integer-result">green integer values</span> in the solution output.</p>
+                        <p class="project-info">For example, if you enter integer coefficients and get an integer solution, it will be displayed without decimal places.</p>
+                    </div>
+                    
+                    <!-- Visualization Guide -->
+                    <div class="card">
+                        <h2 class="info-title"><i class="fas fa-eye"></i> Visualization Guide</h2>
+                        <p class="project-info"><strong>2D Graph:</strong> Shows two lines intersecting at the solution point (for 2x2 systems).</p>
+                        <p class="project-info"><strong>3D Graph:</strong> Shows three planes intersecting at the solution point (for 3x3 systems).</p>
+                        <p class="project-info"><strong>Vector Field:</strong> Shows how matrix A transforms vectors in space.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Footer -->
+            <footer>
+                <div class="footer-logo">
+                    <i class="fas fa-infinity"></i>
+                </div>
+                <p>MatrixLab Pro - Advanced Linear System Solver &copy; 2023</p>
+                <p class="footer-text">A powerful computational tool for solving and visualizing linear systems with integer-preserving calculations and interactive 3D graphics.</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Page Navigation
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize calculator page (but keep it hidden)
+            updateMatrices();
+            initializeGraphs();
+            
+            // Page switching
+            document.getElementById('start-btn').addEventListener('click', function() {
+                document.getElementById('intro-page').classList.remove('active');
+                document.getElementById('calculator-page').classList.add('active');
+                document.body.scrollTop = 0; // For Safari
+                document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+            });
+            
+            document.getElementById('back-btn').addEventListener('click', function() {
+                document.getElementById('calculator-page').classList.remove('active');
+                document.getElementById('intro-page').classList.add('active');
+                document.body.scrollTop = 0;
+                document.documentElement.scrollTop = 0;
+            });
+            
+            // Calculator page event listeners
+            document.getElementById('update-btn').addEventListener('click', updateMatrices);
+            document.getElementById('solve-btn').addEventListener('click', solveLinearSystem);
+            document.getElementById('example-btn').addEventListener('click', loadExample);
+            document.getElementById('reset-btn').addEventListener('click', resetMatrices);
+            
+            // Graph tab switching
+            document.querySelectorAll('.graph-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and contents
+                    document.querySelectorAll('.graph-tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    const tabId = this.getAttribute('data-tab');
+                    document.getElementById(tabId).classList.add('active');
+                });
+            });
+        });
+        
+        // Calculator Functions
+        function updateMatrices() {
+            const rows = parseInt(document.getElementById('rows').value);
+            const cols = parseInt(document.getElementById('cols').value);
+            const bCols = parseInt(document.getElementById('b-cols').value);
+            
+            // Validate inputs
+            if (rows < 1 || rows > 6 || cols < 1 || cols > 6 || bCols < 1 || bCols > 3) {
+                alert('Please enter values between 1 and 6 for matrix dimensions, and 1-3 for B columns.');
+                return;
+            }
+            
+            // Generate matrix A inputs
+            const matrixA = document.getElementById('matrix-a');
+            matrixA.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+            matrixA.innerHTML = '';
+            
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < cols; j++) {
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.className = 'matrix-input';
+                    input.id = `a-${i}-${j}`;
+                    input.placeholder = `a${i+1}${j+1}`;
+                    input.step = 'any';
+                    input.value = i === j ? '1' : '0';
+                    matrixA.appendChild(input);
+                }
+            }
+            
+            // Generate matrix B inputs
+            const matrixB = document.getElementById('matrix-b');
+            matrixB.style.gridTemplateColumns = `repeat(${bCols}, 1fr)`;
+            matrixB.innerHTML = '';
+            
+            for (let i = 0; i < rows; i++) {
+                for (let j = 0; j < bCols; j++) {
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.className = 'matrix-input';
+                    input.id = `b-${i}-${j}`;
+                    input.placeholder = `b${i+1}${j+1}`;
+                    input.step = 'any';
+                    input.value = '0';
+                    matrixB.appendChild(input);
+                }
+            }
+        }
+        
+        function loadExample() {
+            // Set dimensions for 3D example
+            document.getElementById('rows').value = 3;
+            document.getElementById('cols').value = 3;
+            document.getElementById('b-cols').value = 1;
+            
+            updateMatrices();
+            
+            // 3D Example: Three planes intersecting at a point (1, 2, 3)
+            const exampleA = [
+                [2, 1, -1],
+                [-3, -1, 2],
+                [-2, 1, 2]
+            ];
+            
+            const exampleB = [
+                [8],
+                [-11],
+                [-3]
+            ];
+            
+            // Fill matrix A
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 3; j++) {
+                    document.getElementById(`a-${i}-${j}`).value = exampleA[i][j];
+                }
+            }
+            
+            // Fill matrix B
+            for (let i = 0; i < 3; i++) {
+                for (let j = 0; j < 1; j++) {
+                    document.getElementById(`b-${i}-${j}`).value = exampleB[i][j];
+                }
+            }
+            
+            // Clear output
+            document.getElementById('output').innerHTML = '<div class="output-placeholder"><i class="fas fa-lightbulb" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>3D Example loaded! Click "Solve & Visualize" to see the solution and 3D graph.<br><br><i class="fas fa-info-circle"></i> This 3x3 system has an exact integer solution: x = [1, 2, 3]</div>';
+            
+            // Switch to 3D graph tab
+            document.querySelector('[data-tab="3d-graph"]').click();
+        }
+        
+        function resetMatrices() {
+            document.getElementById('rows').value = 3;
+            document.getElementById('cols').value = 3;
+            document.getElementById('b-cols').value = 1;
+            updateMatrices();
+            document.getElementById('output').innerHTML = '<div class="output-placeholder"><i class="fas fa-arrow-left" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>Enter your matrices and click "Solve & Visualize" to see the solution and graph.<div style="margin-top: 20px; font-size: 1rem;"><i class="fas fa-info-circle"></i> Integer inputs will yield exact integer results when possible</div></div>';
+            
+            // Clear graphs
+            initializeGraphs();
+        }
+        
+        function initializeGraphs() {
+            // 2D Graph
+            const graph2d = document.getElementById('graph2d');
+            graph2d.innerHTML = '<div class="graph-placeholder"><div><i class="fas fa-chart-line" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>Solve a system to visualize it in 2D.<br>For 2D visualization, use a 2x2 matrix A and 2x1 matrix B.</div></div>';
+            
+            // 3D Graph
+            const graph3d = document.getElementById('graph3d');
+            graph3d.innerHTML = '<div class="graph-placeholder"><div><i class="fas fa-cube" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>Solve a 3x3 system to visualize plane intersection in 3D.<br>For 3D visualization, use a 3x3 matrix A and 3x1 matrix B.</div></div>';
+            
+            // Vector Graph
+            const graphVector = document.getElementById('graphVector');
+            graphVector.innerHTML = '<div class="graph-placeholder"><div><i class="fas fa-arrows-alt" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>Visualize how matrix A transforms vectors in 2D space.<br>Shows original vectors and transformed vectors.</div></div>';
+        }
+        
+        // Check if a number is essentially an integer
+        function isIntegerValue(num, tolerance = 1e-10) {
+            return Math.abs(num - Math.round(num)) < tolerance;
+        }
+        
+        // Format matrix element for display
+        function formatMatrixElement(num) {
+            if (isIntegerValue(num)) {
+                return `<span class="matrix-element integer-result">${Math.round(num)}</span>`;
+            } else {
+                return `<span class="matrix-element">${num.toFixed(6)}</span>`;
+            }
+        }
+        
+        // Solve the linear system Ax = B
+        function solveLinearSystem() {
+            const rows = parseInt(document.getElementById('rows').value);
+            const cols = parseInt(document.getElementById('cols').value);
+            const bCols = parseInt(document.getElementById('b-cols').value);
+            
+            // Check if all inputs are integers
+            let allIntegers = true;
+            
+            // Get matrix A
+            const A = [];
+            for (let i = 0; i < rows; i++) {
+                A[i] = [];
+                for (let j = 0; j < cols; j++) {
+                    const val = parseFloat(document.getElementById(`a-${i}-${j}`).value);
+                    if (isNaN(val)) {
+                        showError(`Invalid value in matrix A at position (${i+1}, ${j+1}). Please enter a number.`);
+                        return;
+                    }
+                    A[i][j] = val;
+                    // Check if it's an integer
+                    if (!Number.isInteger(val)) {
+                        allIntegers = false;
+                    }
+                }
+            }
+            
+            // Get matrix B
+            const B = [];
+            for (let i = 0; i < rows; i++) {
+                B[i] = [];
+                for (let j = 0; j < bCols; j++) {
+                    const val = parseFloat(document.getElementById(`b-${i}-${j}`).value);
+                    if (isNaN(val)) {
+                        showError(`Invalid value in matrix B at position (${i+1}, ${j+1}). Please enter a number.`);
+                        return;
+                    }
+                    B[i][j] = val;
+                    // Check if it's an integer
+                    if (!Number.isInteger(val)) {
+                        allIntegers = false;
+                    }
+                }
+            }
+            
+            // Check if matrix is square
+            const isSquare = rows === cols;
+            
+            // Perform Gaussian elimination to solve Ax = B
+            let solution;
+            let steps = [];
+            
+            try {
+                // Clone matrices to avoid modifying originals
+                const A_clone = A.map(row => [...row]);
+                const B_clone = B.map(row => [...row]);
+                
+                // Perform Gaussian elimination with partial pivoting
+                solution = gaussianElimination(A_clone, B_clone, steps);
+                
+                // Display solution
+                displaySolution(A, B, solution, steps, isSquare, allIntegers);
+                
+                // Generate graphs based on system dimensions
+                generateGraphs(A, B, solution);
+                
+            } catch (error) {
+                showError(error.message);
+            }
+        }
+        
+        // Gaussian elimination with partial pivoting
+        function gaussianElimination(A, B, steps) {
+            const n = A.length;
+            const m = B[0].length;
+            
+            // Forward elimination
+            for (let i = 0; i < n; i++) {
+                // Partial pivoting
+                let maxRow = i;
+                for (let k = i + 1; k < n; k++) {
+                    if (Math.abs(A[k][i]) > Math.abs(A[maxRow][i])) {
+                        maxRow = k;
+                    }
+                }
+                
+                // Swap rows if needed
+                if (maxRow !== i) {
+                    [A[i], A[maxRow]] = [A[maxRow], A[i]];
+                    [B[i], B[maxRow]] = [B[maxRow], B[i]];
+                    
+                    steps.push({
+                        title: `Pivot: Swapped row ${i+1} with row ${maxRow+1}`,
+                        matrixA: JSON.parse(JSON.stringify(A)),
+                        matrixB: JSON.parse(JSON.stringify(B))
+                    });
+                }
+                
+                // Check for singular matrix
+                if (Math.abs(A[i][i]) < 1e-10) {
+                    throw new Error('Matrix is singular or nearly singular. No unique solution exists.');
+                }
+                
+                // Eliminate below
+                for (let k = i + 1; k < n; k++) {
+                    const factor = A[k][i] / A[i][i];
+                    
+                    for (let j = i; j < n; j++) {
+                        A[k][j] -= factor * A[i][j];
+                    }
+                    
+                    for (let j = 0; j < m; j++) {
+                        B[k][j] -= factor * B[i][j];
+                    }
+                }
+                
+                // Record step
+                if (i < n - 1) {
+                    steps.push({
+                        title: `Elimination: Eliminated below pivot at row ${i+1}, column ${i+1}`,
+                        matrixA: JSON.parse(JSON.stringify(A)),
+                        matrixB: JSON.parse(JSON.stringify(B))
+                    });
+                }
+            }
+            
+            // Back substitution
+            const X = new Array(n);
+            for (let i = 0; i < n; i++) {
+                X[i] = new Array(m);
+            }
+            
+            for (let col = 0; col < m; col++) {
+                for (let i = n - 1; i >= 0; i--) {
+                    let sum = 0;
+                    for (let j = i + 1; j < n; j++) {
+                        sum += A[i][j] * X[j][col];
+                    }
+                    X[i][col] = (B[i][col] - sum) / A[i][i];
+                }
+            }
+            
+            steps.push({
+                title: 'Back substitution: Calculated solution',
+                solution: JSON.parse(JSON.stringify(X))
+            });
+            
+            return X;
+        }
+        
+        // Display solution in output area
+        function displaySolution(A, B, X, steps, isSquare, allIntegers) {
+            const output = document.getElementById('output');
+            let html = '';
+            
+            // Display the problem
+            html += '<div class="solution-step">';
+            html += '<div class="step-title"><i class="fas fa-question-circle"></i> Problem: Solve AX = B</div>';
+            html += '<div>Where A = </div>';
+            html += '<div class="solution-matrix">' + matrixToString(A, true) + '</div>';
+            html += '<div>And B = </div>';
+            html += '<div class="solution-matrix">' + matrixToString(B, true) + '</div>';
+            
+            // Show if all inputs are integers
+            if (allIntegers) {
+                html += '<div style="margin-top: 10px; color: #10b981;"><i class="fas fa-check-circle"></i> All inputs are integers - results will be displayed as integers when exact</div>';
+            }
+            html += '</div>';
+            
+            // Display steps if any
+            if (steps.length > 0) {
+                html += '<div class="solution-step">';
+                html += '<div class="step-title"><i class="fas fa-list-ol"></i> Solution Steps</div>';
+                
+                for (let i = 0; i < steps.length; i++) {
+                    const step = steps[i];
+                    html += `<div style="margin-bottom: 8px;"><strong>Step ${i+1}:</strong> ${step.title}</div>`;
+                    
+                    if (step.matrixA) {
+                        html += `<div>Augmented matrix after this step:</div>`;
+                        html += '<div class="solution-matrix">' + augmentedMatrixToString(step.matrixA, step.matrixB, true) + '</div>';
+                    }
+                    
+                    if (i < steps.length - 1) {
+                        html += '<div style="margin: 12px 0; border-bottom: 1px dotted rgba(99, 102, 241, 0.3);"></div>';
+                    }
+                }
+                html += '</div>';
+            }
+            
+            // Display solution
+            html += '<div class="solution-step">';
+            html += '<div class="step-title"><i class="fas fa-check-circle"></i> Solution: Matrix X</div>';
+            html += '<div class="solution-matrix">' + matrixToString(X, false) + '</div>';
+            
+            // If it's a square system, also show the solution as variables
+            if (isSquare && X[0].length === 1) {
+                html += '<div style="margin-top: 20px;"><strong>Solution as variables:</strong></div>';
+                for (let i = 0; i < X.length; i++) {
+                    const value = X[i][0];
+                    if (isIntegerValue(value)) {
+                        html += `<div>x<sub>${i+1}</sub> = <span class="solution-value integer-result">${Math.round(value)}</span> (exact integer)</div>`;
+                    } else {
+                        html += `<div>x<sub>${i+1}</sub> = <span class="solution-value">${value.toFixed(6)}</span></div>`;
+                    }
+                }
+            }
+            
+            // Check if all solutions are integers
+            let allSolutionsInteger = true;
+            for (let i = 0; i < X.length; i++) {
+                for (let j = 0; j < X[0].length; j++) {
+                    if (!isIntegerValue(X[i][j])) {
+                        allSolutionsInteger = false;
+                        break;
+                    }
+                }
+                if (!allSolutionsInteger) break;
+            }
+            
+            if (allSolutionsInteger) {
+                html += '<div style="margin-top: 15px; padding: 12px; background-color: rgba(16, 185, 129, 0.1); border-radius: 8px; border-left: 4px solid #10b981;">';
+                html += '<i class="fas fa-star"></i> <strong>Exact Integer Solution:</strong> All values in the solution are integers.';
+                html += '</div>';
+            }
+            
+            // Add visualization note
+            html += '<div style="margin-top: 15px; padding: 12px; background-color: rgba(96, 165, 250, 0.1); border-radius: 8px; border-left: 4px solid #60a5fa;">';
+            html += '<i class="fas fa-eye"></i> <strong>Visualization Ready:</strong> Check the "System Visualization" section to see graphs of your system.';
+            html += '</div>';
+            
+            html += '</div>';
+            
+            output.innerHTML = html;
+        }
+        
+        // Convert matrix to string representation
+        function matrixToString(matrix, isInput = false) {
+            let str = '';
+            for (let i = 0; i < matrix.length; i++) {
+                str += '[ ';
+                for (let j = 0; j < matrix[i].length; j++) {
+                    if (isInput) {
+                        str += matrix[i][j] + ' ';
+                    } else {
+                        str += formatMatrixElement(matrix[i][j]) + ' ';
+                    }
+                }
+                str += ']';
+                if (i < matrix.length - 1) str += '<br>';
+            }
+            return str;
+        }
+        
+        // Convert augmented matrix to string representation
+        function augmentedMatrixToString(A, B, isInput = false) {
+            let str = '';
+            for (let i = 0; i < A.length; i++) {
+                str += '[ ';
+                for (let j = 0; j < A[i].length; j++) {
+                    if (isInput) {
+                        str += A[i][j] + ' ';
+                    } else {
+                        str += formatMatrixElement(A[i][j]) + ' ';
+                    }
+                }
+                str += '| ';
+                for (let j = 0; j < B[i].length; j++) {
+                    if (isInput) {
+                        str += B[i][j] + ' ';
+                    } else {
+                        str += formatMatrixElement(B[i][j]) + ' ';
+                    }
+                }
+                str += ']';
+                if (i < A.length - 1) str += '<br>';
+            }
+            return str;
+        }
+        
+        // Generate graphs based on system
+        function generateGraphs(A, B, X) {
+            const rows = A.length;
+            const cols = A[0].length;
+            
+            // Always generate 2D graph for any system
+            generate2DGraph(A, B, X);
+            
+            // Generate 3D graph for 3x3 systems
+            if (rows === 3 && cols === 3 && B[0].length === 1) {
+                generate3DGraph(A, B, X);
+            } else {
+                const graph3d = document.getElementById('graph3d');
+                graph3d.innerHTML = '<div class="graph-placeholder"><div><i class="fas fa-cube" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>3D visualization requires a 3x3 matrix A and 3x1 matrix B.<br>Your system is ' + rows + 'x' + cols + '.</div></div>';
+            }
+            
+            // Generate vector field for 2x2 or 3x3 systems
+            if ((rows === 2 && cols === 2) || (rows === 3 && cols === 3)) {
+                generateVectorField(A);
+            } else {
+                const graphVector = document.getElementById('graphVector');
+                graphVector.innerHTML = '<div class="graph-placeholder"><div><i class="fas fa-arrows-alt" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>Vector field visualization requires a square matrix (2x2 or 3x3).<br>Your matrix is ' + rows + 'x' + cols + '.</div></div>';
+            }
+        }
+        
+        // Generate 2D graph for linear equations
+        function generate2DGraph(A, B, X) {
+            const rows = A.length;
+            const graph2d = document.getElementById('graph2d');
+            
+            // For 2D systems (2 equations)
+            if (rows === 2 && A[0].length === 2 && B[0].length === 1) {
+                const a1 = A[0][0], b1 = A[0][1], c1 = B[0][0];
+                const a2 = A[1][0], b2 = A[1][1], c2 = B[1][0];
+                
+                // Calculate intersection point (solution)
+                const det = a1 * b2 - a2 * b1;
+                let xSol, ySol;
+                
+                if (Math.abs(det) > 1e-10) {
+                    xSol = (c1 * b2 - c2 * b1) / det;
+                    ySol = (a1 * c2 - a2 * c1) / det;
+                } else {
+                    // Parallel lines or coincident
+                    xSol = null;
+                    ySol = null;
+                }
+                
+                // Enhanced visualization range based on solution
+                let xRange = 10;
+                if (xSol !== null && ySol !== null) {
+                    xRange = Math.max(10, Math.abs(xSol) * 1.5, Math.abs(ySol) * 1.5);
+                }
+                
+                // Generate x values for lines
+                const xValues = [];
+                for (let i = -xRange; i <= xRange; i += 0.5) {
+                    xValues.push(i);
+                }
+                
+                // Calculate y values for each line
+                const y1Values = [];
+                const y2Values = [];
+                
+                for (let x of xValues) {
+                    // Line 1: a1*x + b1*y = c1 => y = (c1 - a1*x)/b1
+                    if (Math.abs(b1) > 1e-10) {
+                        y1Values.push((c1 - a1 * x) / b1);
+                    } else {
+                        y1Values.push(null); // Vertical line
+                    }
+                    
+                    // Line 2: a2*x + b2*y = c2 => y = (c2 - a2*x)/b2
+                    if (Math.abs(b2) > 1e-10) {
+                        y2Values.push((c2 - a2 * x) / b2);
+                    } else {
+                        y2Values.push(null);
+                    }
+                }
+                
+                // Create equation strings
+                const eq1 = formatEquation2D(a1, b1, c1);
+                const eq2 = formatEquation2D(a2, b2, c2);
+                
+                // Create traces
+                const trace1 = {
+                    x: xValues,
+                    y: y1Values,
+                    mode: 'lines',
+                    name: eq1,
+                    line: { 
+                        color: '#6366f1', 
+                        width: 4,
+                        dash: 'solid'
+                    },
+                    hoverinfo: 'x+y+name'
+                };
+                
+                const trace2 = {
+                    x: xValues,
+                    y: y2Values,
+                    mode: 'lines',
+                    name: eq2,
+                    line: { 
+                        color: '#10b981', 
+                        width: 4,
+                        dash: 'solid'
+                    },
+                    hoverinfo: 'x+y+name'
+                };
+                
+                const data = [trace1, trace2];
+                
+                // Add solution point if it exists
+                if (xSol !== null && ySol !== null) {
+                    const trace3 = {
+                        x: [xSol],
+                        y: [ySol],
+                        mode: 'markers+text',
+                        name: 'Solution Point',
+                        marker: {
+                            color: '#ef4444',
+                            size: 15,
+                            symbol: 'circle',
+                            line: {
+                                color: 'white',
+                                width: 2
+                            }
+                        },
+                        text: [`(${xSol.toFixed(2)}, ${ySol.toFixed(2)})`],
+                        textposition: 'top center',
+                        textfont: {
+                            size: 14,
+                            color: '#f1f5f9'
+                        },
+                        hoverinfo: 'x+y+name',
+                        hoverlabel: {
+                            bgcolor: '#ef4444',
+                            font: {
+                                color: 'white',
+                                size: 14
+                            }
+                        }
+                    };
+                    data.push(trace3);
+                    
+                    // Add intersection lines
+                    const trace4 = {
+                        x: [xSol, xSol],
+                        y: [0, ySol],
+                        mode: 'lines',
+                        name: 'x = ' + xSol.toFixed(2),
+                        line: {
+                            color: 'rgba(239, 68, 68, 0.5)',
+                            width: 2,
+                            dash: 'dash'
+                        },
+                        showlegend: false
+                    };
+                    
+                    const trace5 = {
+                        x: [0, xSol],
+                        y: [ySol, ySol],
+                        mode: 'lines',
+                        name: 'y = ' + ySol.toFixed(2),
+                        line: {
+                            color: 'rgba(239, 68, 68, 0.5)',
+                            width: 2,
+                            dash: 'dash'
+                        },
+                        showlegend: false
+                    };
+                    
+                    data.push(trace4, trace5);
+                }
+                
+                // Add coordinate axes
+                const traceAxesX = {
+                    x: [-xRange, xRange],
+                    y: [0, 0],
+                    mode: 'lines',
+                    name: 'x-axis',
+                    line: {
+                        color: 'rgba(255, 255, 255, 0.3)',
+                        width: 1
+                    },
+                    showlegend: false
+                };
+                
+                const traceAxesY = {
+                    x: [0, 0],
+                    y: [-xRange, xRange],
+                    mode: 'lines',
+                    name: 'y-axis',
+                    line: {
+                        color: 'rgba(255, 255, 255, 0.3)',
+                        width: 1
+                    },
+                    showlegend: false
+                };
+                
+                data.push(traceAxesX, traceAxesY);
+                
+                const layout = {
+                    title: {
+                        text: '2D Linear Equations Visualization',
+                        font: {
+                            size: 18,
+                            color: '#f1f5f9'
+                        }
+                    },
+                    xaxis: { 
+                        title: {
+                            text: 'x-axis',
+                            font: {
+                                size: 14,
+                                color: '#cbd5e1'
+                            }
+                        },
+                        gridcolor: 'rgba(99, 102, 241, 0.2)',
+                        zerolinecolor: 'rgba(99, 102, 241, 0.5)',
+                        zerolinewidth: 2,
+                        range: [-xRange, xRange],
+                        showgrid: true,
+                        tickfont: {
+                            color: '#94a3b8'
+                        }
+                    },
+                    yaxis: { 
+                        title: {
+                            text: 'y-axis',
+                            font: {
+                                size: 14,
+                                color: '#cbd5e1'
+                            }
+                        },
+                        gridcolor: 'rgba(99, 102, 241, 0.2)',
+                        zerolinecolor: 'rgba(99, 102, 241, 0.5)',
+                        zerolinewidth: 2,
+                        range: [-xRange, xRange],
+                        showgrid: true,
+                        tickfont: {
+                            color: '#94a3b8'
+                        }
+                    },
+                    paper_bgcolor: 'rgba(15, 23, 42, 0)',
+                    plot_bgcolor: 'rgba(15, 23, 42, 0.3)',
+                    font: { color: '#f1f5f9' },
+                    legend: { 
+                        font: { 
+                            color: '#cbd5e1',
+                            size: 12
+                        },
+                        bgcolor: 'rgba(30, 41, 59, 0.9)',
+                        bordercolor: 'rgba(99, 102, 241, 0.3)',
+                        borderwidth: 1,
+                        x: 0.02,
+                        y: 0.98,
+                        yanchor: 'top'
+                    },
+                    margin: { t: 60, r: 30, b: 60, l: 60 },
+                    hovermode: 'closest',
+                    showlegend: true
+                };
+                
+                // Clear and create the graph
+                graph2d.innerHTML = '';
+                Plotly.newPlot(graph2d, data, layout, { 
+                    responsive: true,
+                    displayModeBar: true,
+                    modeBarButtonsToRemove: ['lasso2d', 'select2d'],
+                    displaylogo: false
+                });
+                
+            } else {
+                // For other systems, show a message
+                graph2d.innerHTML = '<div class="graph-placeholder"><div><i class="fas fa-chart-line" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>2D graph visualization is optimized for 2x2 systems.<br>Your system is ' + rows + 'x' + cols + '.</div></div>';
+            }
+        }
+        
+        // Generate 3D graph for plane intersection
+        function generate3DGraph(A, B, X) {
+            const graph3d = document.getElementById('graph3d');
+            
+            // Extract plane equations: a*x + b*y + c*z = d
+            const a1 = A[0][0], b1 = A[0][1], c1 = A[0][2], d1 = B[0][0];
+            const a2 = A[1][0], b2 = A[1][1], c2 = A[1][2], d2 = B[1][0];
+            const a3 = A[2][0], b3 = A[2][1], c3 = A[2][2], d3 = B[2][0];
+            
+            // Solution point
+            const xSol = X[0][0];
+            const ySol = X[1][0];
+            const zSol = X[2][0];
+            
+            // Enhanced visualization range based on solution
+            let size = 5;
+            const maxCoord = Math.max(Math.abs(xSol), Math.abs(ySol), Math.abs(zSol));
+            if (maxCoord > 5) {
+                size = Math.ceil(maxCoord * 1.2);
+            }
+            
+            // Generate grid for plane surfaces
+            const grid = [];
+            for (let i = -size; i <= size; i += size/5) {
+                grid.push(i);
+            }
+            
+            // Generate plane surfaces with enhanced appearance
+            const plane1 = generateEnhancedPlane(a1, b1, c1, d1, grid, size);
+            const plane2 = generateEnhancedPlane(a2, b2, c2, d2, grid, size);
+            const plane3 = generateEnhancedPlane(a3, b3, c3, d3, grid, size);
+            
+            // Create traces with enhanced styling
+            const trace1 = {
+                x: plane1.x, y: plane1.y, z: plane1.z,
+                type: 'mesh3d',
+                name: 'Plane 1: ' + formatEquation3D(a1, b1, c1, d1),
+                opacity: 0.8,
+                color: '#6366f1',
+                flatshading: true,
+                lighting: {
+                    ambient: 0.4,
+                    diffuse: 0.8,
+                    fresnel: 0.2,
+                    specular: 0.5,
+                    roughness: 0.8
+                },
+                lightposition: {x: 100, y: 200, z: 0}
+            };
+            
+            const trace2 = {
+                x: plane2.x, y: plane2.y, z: plane2.z,
+                type: 'mesh3d',
+                name: 'Plane 2: ' + formatEquation3D(a2, b2, c2, d2),
+                opacity: 0.8,
+                color: '#10b981',
+                flatshading: true,
+                lighting: {
+                    ambient: 0.4,
+                    diffuse: 0.8,
+                    fresnel: 0.2,
+                    specular: 0.5,
+                    roughness: 0.8
+                },
+                lightposition: {x: 100, y: 200, z: 0}
+            };
+            
+            const trace3 = {
+                x: plane3.x, y: plane3.y, z: plane3.z,
+                type: 'mesh3d',
+                name: 'Plane 3: ' + formatEquation3D(a3, b3, c3, d3),
+                opacity: 0.8,
+                color: '#f59e0b',
+                flatshading: true,
+                lighting: {
+                    ambient: 0.4,
+                    diffuse: 0.8,
+                    fresnel: 0.2,
+                    specular: 0.5,
+                    roughness: 0.8
+                },
+                lightposition: {x: 100, y: 200, z: 0}
+            };
+            
+            // Solution point trace with enhanced styling
+            const trace4 = {
+                x: [xSol],
+                y: [ySol],
+                z: [zSol],
+                mode: 'markers+text',
+                name: 'Solution Point',
+                marker: {
+                    size: 10,
+                    color: '#ef4444',
+                    symbol: 'circle',
+                    line: {
+                        color: 'white',
+                        width: 2
+                    }
+                },
+                text: [`(${xSol.toFixed(2)}, ${ySol.toFixed(2)}, ${zSol.toFixed(2)})`],
+                textposition: 'top center',
+                textfont: {
+                    size: 12,
+                    color: '#f1f5f9'
+                },
+                type: 'scatter3d',
+                hoverinfo: 'x+y+z+name',
+                hoverlabel: {
+                    bgcolor: '#ef4444',
+                    font: {
+                        color: 'white',
+                        size: 12
+                    }
+                }
+            };
+            
+            // Add coordinate axes
+            const traceAxesX = {
+                x: [-size, size],
+                y: [0, 0],
+                z: [0, 0],
+                mode: 'lines',
+                name: 'x-axis',
+                line: {
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    width: 3
+                },
+                type: 'scatter3d',
+                showlegend: false
+            };
+            
+            const traceAxesY = {
+                x: [0, 0],
+                y: [-size, size],
+                z: [0, 0],
+                mode: 'lines',
+                name: 'y-axis',
+                line: {
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    width: 3
+                },
+                type: 'scatter3d',
+                showlegend: false
+            };
+            
+            const traceAxesZ = {
+                x: [0, 0],
+                y: [0, 0],
+                z: [-size, size],
+                mode: 'lines',
+                name: 'z-axis',
+                line: {
+                    color: 'rgba(255, 255, 255, 0.5)',
+                    width: 3
+                },
+                type: 'scatter3d',
+                showlegend: false
+            };
+            
+            const data = [trace1, trace2, trace3, trace4, traceAxesX, traceAxesY, traceAxesZ];
+            
+            const layout = {
+                title: {
+                    text: '3D Plane Intersection Visualization',
+                    font: {
+                        size: 18,
+                        color: '#f1f5f9'
+                    }
+                },
+                scene: {
+                    xaxis: { 
+                        title: {
+                            text: 'X-axis',
+                            font: {
+                                size: 12,
+                                color: '#cbd5e1'
+                            }
+                        },
+                        gridcolor: 'rgba(99, 102, 241, 0.2)',
+                        backgroundcolor: 'rgba(15, 23, 42, 0.1)',
+                        range: [-size, size],
+                        showgrid: true,
+                        tickfont: {
+                            color: '#94a3b8'
+                        }
+                    },
+                    yaxis: { 
+                        title: {
+                            text: 'Y-axis',
+                            font: {
+                                size: 12,
+                                color: '#cbd5e1'
+                            }
+                        },
+                        gridcolor: 'rgba(99, 102, 241, 0.2)',
+                        backgroundcolor: 'rgba(15, 23, 42, 0.1)',
+                        range: [-size, size],
+                        showgrid: true,
+                        tickfont: {
+                            color: '#94a3b8'
+                        }
+                    },
+                    zaxis: { 
+                        title: {
+                            text: 'Z-axis',
+                            font: {
+                                size: 12,
+                                color: '#cbd5e1'
+                            }
+                        },
+                        gridcolor: 'rgba(99, 102, 241, 0.2)',
+                        backgroundcolor: 'rgba(15, 23, 42, 0.1)',
+                        range: [-size, size],
+                        showgrid: true,
+                        tickfont: {
+                            color: '#94a3b8'
+                        }
+                    },
+                    camera: {
+                        eye: { x: 1.8, y: 1.8, z: 1.2 },
+                        up: { x: 0, y: 0, z: 1 },
+                        center: { x: 0, y: 0, z: 0 }
+                    },
+                    aspectmode: 'cube',
+                    bgcolor: 'rgba(15, 23, 42, 0)'
+                },
+                paper_bgcolor: 'rgba(15, 23, 42, 0)',
+                font: { color: '#f1f5f9' },
+                margin: { t: 60, r: 0, b: 0, l: 0 },
+                showlegend: true,
+                legend: { 
+                    font: { 
+                        color: '#cbd5e1',
+                        size: 11
+                    },
+                    bgcolor: 'rgba(30, 41, 59, 0.9)',
+                    bordercolor: 'rgba(99, 102, 241, 0.3)',
+                    borderwidth: 1,
+                    x: 0.02,
+                    y: 0.98,
+                    yanchor: 'top'
+                }
+            };
+            
+            // Clear and create the graph
+            graph3d.innerHTML = '';
+            Plotly.newPlot(graph3d, data, layout, { 
+                responsive: true,
+                displayModeBar: true,
+                modeBarButtonsToRemove: ['lasso3d', 'orbitRotation'],
+                displaylogo: false
+            });
+        }
+        
+        // Generate vector field for matrix transformation
+        function generateVectorField(A) {
+            const graphVector = document.getElementById('graphVector');
+            const rows = A.length;
+            const cols = A[0].length;
+            
+            // Create grid of points
+            const gridSize = 4;
+            const step = 0.8;
+            const points = [];
+            
+            for (let x = -gridSize; x <= gridSize; x += step) {
+                for (let y = -gridSize; y <= gridSize; y += step) {
+                    points.push({ x, y });
+                }
+            }
+            
+            // Original vectors (from origin to grid points)
+            const origX = points.map(p => p.x);
+            const origY = points.map(p => p.y);
+            const origU = points.map(p => 0); // Zero vectors for origin display
+            const origV = points.map(p => 0);
+            
+            // Transformed vectors
+            const transX = points.map(p => p.x);
+            const transY = points.map(p => p.y);
+            const transU = [];
+            const transV = [];
+            
+            for (let p of points) {
+                if (rows === 2 && cols === 2) {
+                    // 2D transformation
+                    const u = A[0][0] * p.x + A[0][1] * p.y - p.x; // Change from original
+                    const v = A[1][0] * p.x + A[1][1] * p.y - p.y;
+                    transU.push(u);
+                    transV.push(v);
+                } else if (rows === 3 && cols === 3) {
+                    // For 3D, we'll show 2D projection (ignore z)
+                    const u = A[0][0] * p.x + A[0][1] * p.y - p.x;
+                    const v = A[1][0] * p.x + A[1][1] * p.y - p.y;
+                    transU.push(u);
+                    transV.push(v);
+                }
+            }
+            
+            // Create traces with enhanced styling
+            const trace1 = {
+                x: origX,
+                y: origY,
+                u: transU,
+                v: transV,
+                type: 'cone',
+                name: 'Vector Field',
+                sizemode: 'absolute',
+                sizeref: 0.8,
+                showscale: false,
+                colorscale: [[0, '#6366f1'], [1, '#6366f1']],
+                anchor: 'tail',
+                hoverinfo: 'x+y+u+v+name'
+            };
+            
+            // Add grid points
+            const trace2 = {
+                x: points.map(p => p.x),
+                y: points.map(p => p.y),
+                mode: 'markers',
+                name: 'Grid Points',
+                marker: {
+                    size: 4,
+                    color: 'rgba(16, 185, 129, 0.6)',
+                    symbol: 'circle'
+                },
+                showlegend: false,
+                hoverinfo: 'x+y+name'
+            };
+            
+            const data = [trace1, trace2];
+            
+            // Add coordinate axes
+            const traceAxesX = {
+                x: [-gridSize-1, gridSize+1],
+                y: [0, 0],
+                mode: 'lines',
+                name: 'x-axis',
+                line: {
+                    color: 'rgba(255, 255, 255, 0.3)',
+                    width: 1
+                },
+                showlegend: false
+            };
+            
+            const traceAxesY = {
+                x: [0, 0],
+                y: [-gridSize-1, gridSize+1],
+                mode: 'lines',
+                name: 'y-axis',
+                line: {
+                    color: 'rgba(255, 255, 255, 0.3)',
+                    width: 1
+                },
+                showlegend: false
+            };
+            
+            data.push(traceAxesX, traceAxesY);
+            
+            const layout = {
+                title: {
+                    text: 'Vector Field Transformation',
+                    font: {
+                        size: 18,
+                        color: '#f1f5f9'
+                    }
+                },
+                xaxis: { 
+                    title: {
+                        text: 'X-coordinate',
+                        font: {
+                            size: 14,
+                            color: '#cbd5e1'
+                        }
+                    },
+                    gridcolor: 'rgba(99, 102, 241, 0.2)',
+                    zerolinecolor: 'rgba(99, 102, 241, 0.5)',
+                    zerolinewidth: 2,
+                    range: [-gridSize-1, gridSize+1],
+                    showgrid: true,
+                    tickfont: {
+                        color: '#94a3b8'
+                    }
+                },
+                yaxis: { 
+                    title: {
+                        text: 'Y-coordinate',
+                        font: {
+                            size: 14,
+                            color: '#cbd5e1'
+                        }
+                    },
+                    gridcolor: 'rgba(99, 102, 241, 0.2)',
+                    zerolinecolor: 'rgba(99, 102, 241, 0.5)',
+                    zerolinewidth: 2,
+                    range: [-gridSize-1, gridSize+1],
+                    showgrid: true,
+                    tickfont: {
+                        color: '#94a3b8'
+                    }
+                },
+                paper_bgcolor: 'rgba(15, 23, 42, 0)',
+                plot_bgcolor: 'rgba(15, 23, 42, 0.3)',
+                font: { color: '#f1f5f9' },
+                legend: { 
+                    font: { 
+                        color: '#cbd5e1',
+                        size: 12
+                    },
+                    bgcolor: 'rgba(30, 41, 59, 0.9)',
+                    bordercolor: 'rgba(99, 102, 241, 0.3)',
+                    borderwidth: 1,
+                    x: 0.02,
+                    y: 0.98,
+                    yanchor: 'top'
+                },
+                margin: { t: 60, r: 30, b: 60, l: 60 },
+                hovermode: 'closest'
+            };
+            
+            // Clear and create the graph
+            graphVector.innerHTML = '';
+            Plotly.newPlot(graphVector, data, layout, { 
+                responsive: true,
+                displayModeBar: true,
+                displaylogo: false
+            });
+        }
+        
+        // Helper function to format 2D equation for display
+        function formatEquation2D(a, b, c) {
+            let eq = '';
+            if (a !== 0) {
+                eq += (a === 1 ? '' : a === -1 ? '-' : a.toFixed(2)) + 'x';
+            }
+            if (b !== 0) {
+                if (b > 0 && eq !== '') eq += ' + ';
+                else if (b < 0) eq += ' - ';
+                eq += (Math.abs(b) === 1 ? '' : Math.abs(b).toFixed(2)) + 'y';
+            }
+            eq += ' = ' + c.toFixed(2);
+            return eq;
+        }
+        
+        // Helper function to format 3D equation for display
+        function formatEquation3D(a, b, c, d) {
+            let eq = '';
+            if (a !== 0) {
+                eq += (a === 1 ? '' : a === -1 ? '-' : a.toFixed(2)) + 'x';
+            }
+            if (b !== 0) {
+                if (b > 0 && eq !== '') eq += ' + ';
+                else if (b < 0) eq += ' - ';
+                eq += (Math.abs(b) === 1 ? '' : Math.abs(b).toFixed(2)) + 'y';
+            }
+            if (c !== 0) {
+                if (c > 0 && eq !== '') eq += ' + ';
+                else if (c < 0) eq += ' - ';
+                eq += (Math.abs(c) === 1 ? '' : Math.abs(c).toFixed(2)) + 'z';
+            }
+            eq += ' = ' + d.toFixed(2);
+            return eq;
+        }
+        
+        // Enhanced function to generate plane data for 3D visualization
+        function generateEnhancedPlane(a, b, c, d, grid, size) {
+            const x = [], y = [], z = [];
+            const i = [], j = [], k = [];
+            
+            // Handle different plane orientations
+            if (Math.abs(c) > 1e-10) {
+                // Solve for z: z = (d - a*x - b*y)/c
+                for (let xi of grid) {
+                    for (let yi of grid) {
+                        x.push(xi);
+                        y.push(yi);
+                        z.push((d - a * xi - b * yi) / c);
+                    }
+                }
+                
+                // Create triangle indices for mesh
+                const n = grid.length;
+                for (let iIdx = 0; iIdx < n-1; iIdx++) {
+                    for (let jIdx = 0; jIdx < n-1; jIdx++) {
+                        const idx = iIdx * n + jIdx;
+                        i.push(idx, idx, idx+1);
+                        j.push(idx+n, idx+1, idx+1+n);
+                        k.push(idx+1, idx+n, idx+1+n);
+                    }
+                }
+            } else if (Math.abs(b) > 1e-10) {
+                // Solve for y: y = (d - a*x - c*z)/b
+                for (let xi of grid) {
+                    for (let zi of grid) {
+                        x.push(xi);
+                        y.push((d - a * xi - c * zi) / b);
+                        z.push(zi);
+                    }
+                }
+            } else if (Math.abs(a) > 1e-10) {
+                // Solve for x: x = (d - b*y - c*z)/a
+                for (let yi of grid) {
+                    for (let zi of grid) {
+                        x.push((d - b * yi - c * zi) / a);
+                        y.push(yi);
+                        z.push(zi);
+                    }
+                }
+            }
+            
+            return { x, y, z, i, j, k };
+        }
+        
+        // Show error message
+        function showError(message) {
+            const output = document.getElementById('output');
+            output.innerHTML = `<div class="error-message"><i class="fas fa-exclamation-triangle"></i> <strong>Error:</strong> ${message}</div>`;
+        }
+    </script>
+</body>
+</html>
