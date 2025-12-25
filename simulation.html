@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MatrixLab Pro | Linear System Solver</title>
+    <title>Linear System Solver | 2D/3D Visualization</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.plot.ly/plotly-2.24.1.min.js" charset="utf-8"></script>
     <style>
@@ -914,19 +914,6 @@
             margin-bottom: 15px;
         }
         
-        /* Integer Results */
-        .integer-result {
-            color: #10b981;
-            font-weight: 700;
-        }
-        
-        .matrix-element {
-            display: inline-block;
-            min-width: 70px;
-            text-align: center;
-            padding: 5px;
-        }
-        
         /* Footer */
         footer {
             text-align: center;
@@ -1029,8 +1016,8 @@
                         <i class="fas fa-infinity logo-icon"></i>
                     </div>
                     <div class="header-text">
-                        <h1 class="main-title">Matrix<span>Lab</span> Pro</h1>
-                        <p class="tagline">Advanced <span class="tagline-highlight">Linear System Solver</span> with Interactive 3D Visualization</p>
+                        <h1 class="main-title">Linear <span>System</span> Solver</h1>
+                        <p class="tagline">Advanced <span class="tagline-highlight">Linear System Solver</span> with Interactive 2D/3D Visualization</p>
                     </div>
                 </div>
             </div>
@@ -1042,10 +1029,9 @@
                     <div class="card-icon">
                         <i class="fas fa-info-circle"></i>
                     </div>
-                    <h2 class="card-title">About MatrixLab Pro</h2>
+                    <h2 class="card-title">About Linear System Solver</h2>
                     <div class="card-content">
-                        <p>MatrixLab Pro is an advanced linear system solver that combines precise mathematical computation with interactive 3D visualization. Solve systems of equations in the form <span class="highlight">Ax = B</span> and visualize the results in multiple dimensions.</p>
-                        <p>The solver preserves <span class="highlight">integer results</span> when all inputs are integers and the solution is exact. This makes it ideal for educational purposes and mathematical exploration.</p>
+                        <p>Linear System Solver is an advanced tool that combines precise mathematical computation with interactive 2D/3D visualization. Solve systems of equations in the form <span class="highlight">Ax = B</span> and visualize the results in multiple dimensions.</p>
                     </div>
                 </div>
                 
@@ -1062,7 +1048,6 @@
                             <li><strong>Partial Pivoting:</strong> Swap rows for numerical stability</li>
                             <li><strong>Forward Elimination:</strong> Create upper triangular matrix</li>
                             <li><strong>Back Substitution:</strong> Solve for variables</li>
-                            <li><strong>Result Formatting:</strong> Display integer results when exact</li>
                             <li><strong>Visualization:</strong> Generate interactive 2D/3D graphs</li>
                         </ul>
                     </div>
@@ -1081,7 +1066,7 @@
                             <li>Enter values for matrices A and B</li>
                             <li>Click <strong>"Solve & Visualize"</strong> to calculate</li>
                             <li>View solution steps and results</li>
-                            <li>Switch between 2D, 3D, and Vector visualizations</li>
+                            <li>Switch between 2D and 3D visualizations</li>
                             <li>Use <strong>"Load Example"</strong> for a sample problem</li>
                         </ol>
                         <div class="note-box" style="margin-top: 20px;">
@@ -1108,7 +1093,7 @@
             <div class="nav-header">
                 <div class="nav-logo">
                     <i class="fas fa-infinity nav-logo-icon"></i>
-                    <h2 class="nav-title">MatrixLab Pro Calculator</h2>
+                    <h2 class="nav-title">Linear System Solver</h2>
                 </div>
                 <button id="back-btn" class="back-btn">
                     <i class="fas fa-arrow-left"></i> Back to Introduction
@@ -1179,9 +1164,6 @@
                             <div class="output-placeholder">
                                 <i class="fas fa-arrow-left" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>
                                 Enter your matrices and click "Solve & Visualize" to see the solution and graph.
-                                <div style="margin-top: 20px; font-size: 1rem;">
-                                    <i class="fas fa-info-circle"></i> Integer inputs will yield exact integer results when possible
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -1193,7 +1175,6 @@
                         <div class="graph-tabs">
                             <button class="graph-tab active" data-tab="2d-graph">2D Graph</button>
                             <button class="graph-tab" data-tab="3d-graph">3D Graph</button>
-                            <button class="graph-tab" data-tab="vector-graph">Vector Field</button>
                         </div>
                         
                         <div id="2d-graph" class="tab-content active">
@@ -1225,21 +1206,6 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        <div id="vector-graph" class="tab-content">
-                            <div class="graph-title">
-                                <div><i class="fas fa-arrows-alt"></i> Vector Field Transformation</div>
-                            </div>
-                            <div id="graphVector" class="graph-container">
-                                <div class="graph-placeholder">
-                                    <div>
-                                        <i class="fas fa-arrows-alt" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>
-                                        Visualize how matrix A transforms vectors in 2D space.<br>
-                                        Shows original vectors and transformed vectors.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 
@@ -1252,15 +1218,8 @@
                         <p class="project-info"><strong>Enter Values:</strong> Fill in the matrix cells with your coefficients and constants.</p>
                         <p class="project-info"><strong>Solve:</strong> Click "Solve & Visualize" to calculate and graph the solution.</p>
                         <div class="note-box">
-                            <i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Use "Load 3D Example" for a sample 3x3 system with integer solution.
+                            <i class="fas fa-lightbulb"></i> <strong>Tip:</strong> Use "Load 3D Example" for a sample 3x3 system.
                         </div>
-                    </div>
-                    
-                    <!-- Integer Results -->
-                    <div class="card">
-                        <h2 class="info-title"><i class="fas fa-calculator"></i> Integer Results</h2>
-                        <p class="project-info">This solver preserves integer results when all inputs are integers and the solution is exact. Look for <span class="integer-result">green integer values</span> in the solution output.</p>
-                        <p class="project-info">For example, if you enter integer coefficients and get an integer solution, it will be displayed without decimal places.</p>
                     </div>
                     
                     <!-- Visualization Guide -->
@@ -1268,7 +1227,16 @@
                         <h2 class="info-title"><i class="fas fa-eye"></i> Visualization Guide</h2>
                         <p class="project-info"><strong>2D Graph:</strong> Shows two lines intersecting at the solution point (for 2x2 systems).</p>
                         <p class="project-info"><strong>3D Graph:</strong> Shows three planes intersecting at the solution point (for 3x3 systems).</p>
-                        <p class="project-info"><strong>Vector Field:</strong> Shows how matrix A transforms vectors in space.</p>
+                        <p class="project-info"><strong>Note:</strong> Graphs are automatically generated based on your matrix dimensions.</p>
+                    </div>
+                    
+                    <!-- System Types -->
+                    <div class="card">
+                        <h2 class="info-title"><i class="fas fa-project-diagram"></i> System Types</h2>
+                        <p class="project-info"><strong>Square Systems:</strong> Same number of equations and variables.</p>
+                        <p class="project-info"><strong>Non-Square Systems:</strong> Different number of equations and variables.</p>
+                        <p class="project-info"><strong>Consistent Systems:</strong> Have at least one solution.</p>
+                        <p class="project-info"><strong>Inconsistent Systems:</strong> Have no solution.</p>
                     </div>
                 </div>
             </div>
@@ -1278,8 +1246,8 @@
                 <div class="footer-logo">
                     <i class="fas fa-infinity"></i>
                 </div>
-                <p>MatrixLab Pro - Advanced Linear System Solver &copy; 2023</p>
-                <p class="footer-text">A powerful computational tool for solving and visualizing linear systems with integer-preserving calculations and interactive 3D graphics.</p>
+                <p>Linear System Solver - Advanced Linear System Solver &copy; 2023</p>
+                <p class="footer-text">A powerful computational tool for solving and visualizing linear systems with interactive 2D/3D graphics.</p>
             </footer>
         </div>
     </div>
@@ -1414,7 +1382,7 @@
             }
             
             // Clear output
-            document.getElementById('output').innerHTML = '<div class="output-placeholder"><i class="fas fa-lightbulb" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>3D Example loaded! Click "Solve & Visualize" to see the solution and 3D graph.<br><br><i class="fas fa-info-circle"></i> This 3x3 system has an exact integer solution: x = [1, 2, 3]</div>';
+            document.getElementById('output').innerHTML = '<div class="output-placeholder"><i class="fas fa-lightbulb" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>3D Example loaded! Click "Solve & Visualize" to see the solution and 3D graph.<br><br><i class="fas fa-info-circle"></i> This 3x3 system has solution: x = [1, 2, 3]</div>';
             
             // Switch to 3D graph tab
             document.querySelector('[data-tab="3d-graph"]').click();
@@ -1425,7 +1393,7 @@
             document.getElementById('cols').value = 3;
             document.getElementById('b-cols').value = 1;
             updateMatrices();
-            document.getElementById('output').innerHTML = '<div class="output-placeholder"><i class="fas fa-arrow-left" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>Enter your matrices and click "Solve & Visualize" to see the solution and graph.<div style="margin-top: 20px; font-size: 1rem;"><i class="fas fa-info-circle"></i> Integer inputs will yield exact integer results when possible</div></div>';
+            document.getElementById('output').innerHTML = '<div class="output-placeholder"><i class="fas fa-arrow-left" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>Enter your matrices and click "Solve & Visualize" to see the solution and graph.</div>';
             
             // Clear graphs
             initializeGraphs();
@@ -1439,10 +1407,6 @@
             // 3D Graph
             const graph3d = document.getElementById('graph3d');
             graph3d.innerHTML = '<div class="graph-placeholder"><div><i class="fas fa-cube" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>Solve a 3x3 system to visualize plane intersection in 3D.<br>For 3D visualization, use a 3x3 matrix A and 3x1 matrix B.</div></div>';
-            
-            // Vector Graph
-            const graphVector = document.getElementById('graphVector');
-            graphVector.innerHTML = '<div class="graph-placeholder"><div><i class="fas fa-arrows-alt" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>Visualize how matrix A transforms vectors in 2D space.<br>Shows original vectors and transformed vectors.</div></div>';
         }
         
         // Check if a number is essentially an integer
@@ -1452,11 +1416,8 @@
         
         // Format matrix element for display
         function formatMatrixElement(num) {
-            if (isIntegerValue(num)) {
-                return `<span class="matrix-element integer-result">${Math.round(num)}</span>`;
-            } else {
-                return `<span class="matrix-element">${num.toFixed(6)}</span>`;
-            }
+            // Always display with 6 decimal places for consistency
+            return `<span class="matrix-element">${num.toFixed(6)}</span>`;
         }
         
         // Solve the linear system Ax = B
@@ -1464,9 +1425,6 @@
             const rows = parseInt(document.getElementById('rows').value);
             const cols = parseInt(document.getElementById('cols').value);
             const bCols = parseInt(document.getElementById('b-cols').value);
-            
-            // Check if all inputs are integers
-            let allIntegers = true;
             
             // Get matrix A
             const A = [];
@@ -1479,10 +1437,6 @@
                         return;
                     }
                     A[i][j] = val;
-                    // Check if it's an integer
-                    if (!Number.isInteger(val)) {
-                        allIntegers = false;
-                    }
                 }
             }
             
@@ -1497,14 +1451,10 @@
                         return;
                     }
                     B[i][j] = val;
-                    // Check if it's an integer
-                    if (!Number.isInteger(val)) {
-                        allIntegers = false;
-                    }
                 }
             }
             
-            // Check if matrix is square
+            // Check if system is consistent
             const isSquare = rows === cols;
             
             // Perform Gaussian elimination to solve Ax = B
@@ -1516,11 +1466,11 @@
                 const A_clone = A.map(row => [...row]);
                 const B_clone = B.map(row => [...row]);
                 
-                // Perform Gaussian elimination with partial pivoting
-                solution = gaussianElimination(A_clone, B_clone, steps);
+                // Perform Gaussian elimination with partial pivoting for non-square matrices
+                solution = gaussianEliminationFull(A_clone, B_clone, steps);
                 
                 // Display solution
-                displaySolution(A, B, solution, steps, isSquare, allIntegers);
+                displaySolution(A, B, solution, steps, isSquare);
                 
                 // Generate graphs based on system dimensions
                 generateGraphs(A, B, solution);
@@ -1530,79 +1480,123 @@
             }
         }
         
-        // Gaussian elimination with partial pivoting
-        function gaussianElimination(A, B, steps) {
-            const n = A.length;
-            const m = B[0].length;
+        // Gaussian elimination for non-square matrices (returns solution or null if no solution)
+        function gaussianEliminationFull(A, B, steps) {
+            const m = A.length;    // number of equations (rows)
+            const n = A[0].length; // number of variables (columns)
+            const p = B[0].length; // number of right-hand sides
             
-            // Forward elimination
-            for (let i = 0; i < n; i++) {
-                // Partial pivoting
-                let maxRow = i;
-                for (let k = i + 1; k < n; k++) {
-                    if (Math.abs(A[k][i]) > Math.abs(A[maxRow][i])) {
-                        maxRow = k;
+            // Create augmented matrix
+            const augmented = [];
+            for (let i = 0; i < m; i++) {
+                augmented[i] = [...A[i], ...B[i]];
+            }
+            
+            let row = 0;
+            let col = 0;
+            
+            // Forward elimination with partial pivoting
+            while (row < m && col < n) {
+                // Find pivot
+                let maxRow = row;
+                for (let i = row + 1; i < m; i++) {
+                    if (Math.abs(augmented[i][col]) > Math.abs(augmented[maxRow][col])) {
+                        maxRow = i;
                     }
+                }
+                
+                if (Math.abs(augmented[maxRow][col]) < 1e-10) {
+                    // Column is zero, move to next column
+                    col++;
+                    continue;
                 }
                 
                 // Swap rows if needed
-                if (maxRow !== i) {
-                    [A[i], A[maxRow]] = [A[maxRow], A[i]];
-                    [B[i], B[maxRow]] = [B[maxRow], B[i]];
-                    
+                if (maxRow !== row) {
+                    [augmented[row], augmented[maxRow]] = [augmented[maxRow], augmented[row]];
                     steps.push({
-                        title: `Pivot: Swapped row ${i+1} with row ${maxRow+1}`,
-                        matrixA: JSON.parse(JSON.stringify(A)),
-                        matrixB: JSON.parse(JSON.stringify(B))
+                        title: `Pivot: Swapped row ${row+1} with row ${maxRow+1}`,
+                        matrixA: augmented.map(row => row.slice(0, n)),
+                        matrixB: augmented.map(row => row.slice(n))
                     });
                 }
                 
-                // Check for singular matrix
-                if (Math.abs(A[i][i]) < 1e-10) {
-                    throw new Error('Matrix is singular or nearly singular. No unique solution exists.');
+                // Normalize pivot row
+                const pivot = augmented[row][col];
+                for (let j = col; j < n + p; j++) {
+                    augmented[row][j] /= pivot;
                 }
                 
-                // Eliminate below
-                for (let k = i + 1; k < n; k++) {
-                    const factor = A[k][i] / A[i][i];
-                    
-                    for (let j = i; j < n; j++) {
-                        A[k][j] -= factor * A[i][j];
-                    }
-                    
-                    for (let j = 0; j < m; j++) {
-                        B[k][j] -= factor * B[i][j];
+                // Eliminate other rows
+                for (let i = 0; i < m; i++) {
+                    if (i !== row && Math.abs(augmented[i][col]) > 1e-10) {
+                        const factor = augmented[i][col];
+                        for (let j = col; j < n + p; j++) {
+                            augmented[i][j] -= factor * augmented[row][j];
+                        }
                     }
                 }
                 
                 // Record step
-                if (i < n - 1) {
+                if (row < m - 1) {
                     steps.push({
-                        title: `Elimination: Eliminated below pivot at row ${i+1}, column ${i+1}`,
-                        matrixA: JSON.parse(JSON.stringify(A)),
-                        matrixB: JSON.parse(JSON.stringify(B))
+                        title: `Elimination: Processed column ${col+1}, row ${row+1}`,
+                        matrixA: augmented.map(row => row.slice(0, n)),
+                        matrixB: augmented.map(row => row.slice(n))
                     });
                 }
+                
+                row++;
+                col++;
             }
             
-            // Back substitution
+            // Check for consistency (no solution)
+            for (let i = row; i < m; i++) {
+                for (let j = n; j < n + p; j++) {
+                    if (Math.abs(augmented[i][j]) > 1e-10) {
+                        throw new Error('System has no solution (inconsistent equations).');
+                    }
+                }
+            }
+            
+            // Extract solution
             const X = new Array(n);
             for (let i = 0; i < n; i++) {
-                X[i] = new Array(m);
+                X[i] = new Array(p).fill(0);
             }
             
-            for (let col = 0; col < m; col++) {
-                for (let i = n - 1; i >= 0; i--) {
-                    let sum = 0;
-                    for (let j = i + 1; j < n; j++) {
-                        sum += A[i][j] * X[j][col];
-                    }
-                    X[i][col] = (B[i][col] - sum) / A[i][i];
+            // Find pivot columns
+            const pivotCols = new Array(n).fill(-1);
+            row = 0;
+            col = 0;
+            
+            while (row < m && col < n) {
+                if (Math.abs(augmented[row][col]) > 1e-10) {
+                    pivotCols[col] = row;
+                    row++;
                 }
+                col++;
+            }
+            
+            // For each right-hand side
+            for (let rhs = 0; rhs < p; rhs++) {
+                for (let j = 0; j < n; j++) {
+                    if (pivotCols[j] !== -1) {
+                        X[j][rhs] = augmented[pivotCols[j]][n + rhs];
+                    }
+                }
+            }
+            
+            // Check if system is underdetermined
+            const pivotCount = pivotCols.filter(col => col !== -1).length;
+            if (pivotCount < n) {
+                steps.push({
+                    title: `Note: System is underdetermined (${pivotCount} pivots for ${n} variables). Solution shown is one possible solution.`
+                });
             }
             
             steps.push({
-                title: 'Back substitution: Calculated solution',
+                title: 'Solution found',
                 solution: JSON.parse(JSON.stringify(X))
             });
             
@@ -1610,22 +1604,17 @@
         }
         
         // Display solution in output area
-        function displaySolution(A, B, X, steps, isSquare, allIntegers) {
+        function displaySolution(A, B, X, steps, isSquare) {
             const output = document.getElementById('output');
             let html = '';
             
             // Display the problem
             html += '<div class="solution-step">';
             html += '<div class="step-title"><i class="fas fa-question-circle"></i> Problem: Solve AX = B</div>';
-            html += '<div>Where A = </div>';
+            html += '<div>Where A is ' + A.length + '×' + A[0].length + ' matrix:</div>';
             html += '<div class="solution-matrix">' + matrixToString(A, true) + '</div>';
-            html += '<div>And B = </div>';
+            html += '<div>And B is ' + B.length + '×' + B[0].length + ' matrix:</div>';
             html += '<div class="solution-matrix">' + matrixToString(B, true) + '</div>';
-            
-            // Show if all inputs are integers
-            if (allIntegers) {
-                html += '<div style="margin-top: 10px; color: #10b981;"><i class="fas fa-check-circle"></i> All inputs are integers - results will be displayed as integers when exact</div>';
-            }
             html += '</div>';
             
             // Display steps if any
@@ -1652,42 +1641,41 @@
             // Display solution
             html += '<div class="solution-step">';
             html += '<div class="step-title"><i class="fas fa-check-circle"></i> Solution: Matrix X</div>';
+            html += '<div>X is ' + X.length + '×' + X[0].length + ' matrix:</div>';
             html += '<div class="solution-matrix">' + matrixToString(X, false) + '</div>';
             
             // If it's a square system, also show the solution as variables
-            if (isSquare && X[0].length === 1) {
+            if (isSquare && X.length === X[0].length && X[0].length === 1) {
                 html += '<div style="margin-top: 20px;"><strong>Solution as variables:</strong></div>';
                 for (let i = 0; i < X.length; i++) {
                     const value = X[i][0];
-                    if (isIntegerValue(value)) {
-                        html += `<div>x<sub>${i+1}</sub> = <span class="solution-value integer-result">${Math.round(value)}</span> (exact integer)</div>`;
-                    } else {
-                        html += `<div>x<sub>${i+1}</sub> = <span class="solution-value">${value.toFixed(6)}</span></div>`;
-                    }
+                    html += `<div>x<sub>${i+1}</sub> = <span class="solution-value">${value.toFixed(6)}</span></div>`;
+                }
+            } else if (X[0].length === 1) {
+                // Show variables for column vector X
+                html += '<div style="margin-top: 20px;"><strong>Solution as variables:</strong></div>';
+                for (let i = 0; i < X.length; i++) {
+                    const value = X[i][0];
+                    html += `<div>x<sub>${i+1}</sub> = <span class="solution-value">${value.toFixed(6)}</span></div>`;
                 }
             }
             
-            // Check if all solutions are integers
-            let allSolutionsInteger = true;
-            for (let i = 0; i < X.length; i++) {
-                for (let j = 0; j < X[0].length; j++) {
-                    if (!isIntegerValue(X[i][j])) {
-                        allSolutionsInteger = false;
-                        break;
-                    }
-                }
-                if (!allSolutionsInteger) break;
-            }
-            
-            if (allSolutionsInteger) {
-                html += '<div style="margin-top: 15px; padding: 12px; background-color: rgba(16, 185, 129, 0.1); border-radius: 8px; border-left: 4px solid #10b981;">';
-                html += '<i class="fas fa-star"></i> <strong>Exact Integer Solution:</strong> All values in the solution are integers.';
+            // Add system type information
+            const m = A.length;
+            const n = A[0].length;
+            if (m > n) {
+                html += '<div style="margin-top: 15px; padding: 12px; background-color: rgba(245, 158, 11, 0.1); border-radius: 8px; border-left: 4px solid #f59e0b;">';
+                html += `<i class="fas fa-info-circle"></i> <strong>Overdetermined System:</strong> ${m} equations, ${n} variables. Solution is a least-squares approximation if system is inconsistent.`;
+                html += '</div>';
+            } else if (m < n) {
+                html += '<div style="margin-top: 15px; padding: 12px; background-color: rgba(245, 158, 11, 0.1); border-radius: 8px; border-left: 4px solid #f59e0b;">';
+                html += `<i class="fas fa-info-circle"></i> <strong>Underdetermined System:</strong> ${m} equations, ${n} variables. Solution shown is one particular solution.`;
                 html += '</div>';
             }
             
             // Add visualization note
             html += '<div style="margin-top: 15px; padding: 12px; background-color: rgba(96, 165, 250, 0.1); border-radius: 8px; border-left: 4px solid #60a5fa;">';
-            html += '<i class="fas fa-eye"></i> <strong>Visualization Ready:</strong> Check the "System Visualization" section to see graphs of your system.';
+            html += '<i class="fas fa-eye"></i> <strong>Visualization Ready:</strong> Check the "System Visualization" section to see 2D or 3D graphs of your system.';
             html += '</div>';
             
             html += '</div>';
@@ -1753,14 +1741,6 @@
             } else {
                 const graph3d = document.getElementById('graph3d');
                 graph3d.innerHTML = '<div class="graph-placeholder"><div><i class="fas fa-cube" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>3D visualization requires a 3x3 matrix A and 3x1 matrix B.<br>Your system is ' + rows + 'x' + cols + '.</div></div>';
-            }
-            
-            // Generate vector field for 2x2 or 3x3 systems
-            if ((rows === 2 && cols === 2) || (rows === 3 && cols === 3)) {
-                generateVectorField(A);
-            } else {
-                const graphVector = document.getElementById('graphVector');
-                graphVector.innerHTML = '<div class="graph-placeholder"><div><i class="fas fa-arrows-alt" style="font-size: 3rem; margin-bottom: 20px; display: block; color: #60a5fa;"></i>Vector field visualization requires a square matrix (2x2 or 3x3).<br>Your matrix is ' + rows + 'x' + cols + '.</div></div>';
             }
         }
         
@@ -2270,181 +2250,6 @@
                 responsive: true,
                 displayModeBar: true,
                 modeBarButtonsToRemove: ['lasso3d', 'orbitRotation'],
-                displaylogo: false
-            });
-        }
-        
-        // Generate vector field for matrix transformation
-        function generateVectorField(A) {
-            const graphVector = document.getElementById('graphVector');
-            const rows = A.length;
-            const cols = A[0].length;
-            
-            // Create grid of points
-            const gridSize = 4;
-            const step = 0.8;
-            const points = [];
-            
-            for (let x = -gridSize; x <= gridSize; x += step) {
-                for (let y = -gridSize; y <= gridSize; y += step) {
-                    points.push({ x, y });
-                }
-            }
-            
-            // Original vectors (from origin to grid points)
-            const origX = points.map(p => p.x);
-            const origY = points.map(p => p.y);
-            const origU = points.map(p => 0); // Zero vectors for origin display
-            const origV = points.map(p => 0);
-            
-            // Transformed vectors
-            const transX = points.map(p => p.x);
-            const transY = points.map(p => p.y);
-            const transU = [];
-            const transV = [];
-            
-            for (let p of points) {
-                if (rows === 2 && cols === 2) {
-                    // 2D transformation
-                    const u = A[0][0] * p.x + A[0][1] * p.y - p.x; // Change from original
-                    const v = A[1][0] * p.x + A[1][1] * p.y - p.y;
-                    transU.push(u);
-                    transV.push(v);
-                } else if (rows === 3 && cols === 3) {
-                    // For 3D, we'll show 2D projection (ignore z)
-                    const u = A[0][0] * p.x + A[0][1] * p.y - p.x;
-                    const v = A[1][0] * p.x + A[1][1] * p.y - p.y;
-                    transU.push(u);
-                    transV.push(v);
-                }
-            }
-            
-            // Create traces with enhanced styling
-            const trace1 = {
-                x: origX,
-                y: origY,
-                u: transU,
-                v: transV,
-                type: 'cone',
-                name: 'Vector Field',
-                sizemode: 'absolute',
-                sizeref: 0.8,
-                showscale: false,
-                colorscale: [[0, '#6366f1'], [1, '#6366f1']],
-                anchor: 'tail',
-                hoverinfo: 'x+y+u+v+name'
-            };
-            
-            // Add grid points
-            const trace2 = {
-                x: points.map(p => p.x),
-                y: points.map(p => p.y),
-                mode: 'markers',
-                name: 'Grid Points',
-                marker: {
-                    size: 4,
-                    color: 'rgba(16, 185, 129, 0.6)',
-                    symbol: 'circle'
-                },
-                showlegend: false,
-                hoverinfo: 'x+y+name'
-            };
-            
-            const data = [trace1, trace2];
-            
-            // Add coordinate axes
-            const traceAxesX = {
-                x: [-gridSize-1, gridSize+1],
-                y: [0, 0],
-                mode: 'lines',
-                name: 'x-axis',
-                line: {
-                    color: 'rgba(255, 255, 255, 0.3)',
-                    width: 1
-                },
-                showlegend: false
-            };
-            
-            const traceAxesY = {
-                x: [0, 0],
-                y: [-gridSize-1, gridSize+1],
-                mode: 'lines',
-                name: 'y-axis',
-                line: {
-                    color: 'rgba(255, 255, 255, 0.3)',
-                    width: 1
-                },
-                showlegend: false
-            };
-            
-            data.push(traceAxesX, traceAxesY);
-            
-            const layout = {
-                title: {
-                    text: 'Vector Field Transformation',
-                    font: {
-                        size: 18,
-                        color: '#f1f5f9'
-                    }
-                },
-                xaxis: { 
-                    title: {
-                        text: 'X-coordinate',
-                        font: {
-                            size: 14,
-                            color: '#cbd5e1'
-                        }
-                    },
-                    gridcolor: 'rgba(99, 102, 241, 0.2)',
-                    zerolinecolor: 'rgba(99, 102, 241, 0.5)',
-                    zerolinewidth: 2,
-                    range: [-gridSize-1, gridSize+1],
-                    showgrid: true,
-                    tickfont: {
-                        color: '#94a3b8'
-                    }
-                },
-                yaxis: { 
-                    title: {
-                        text: 'Y-coordinate',
-                        font: {
-                            size: 14,
-                            color: '#cbd5e1'
-                        }
-                    },
-                    gridcolor: 'rgba(99, 102, 241, 0.2)',
-                    zerolinecolor: 'rgba(99, 102, 241, 0.5)',
-                    zerolinewidth: 2,
-                    range: [-gridSize-1, gridSize+1],
-                    showgrid: true,
-                    tickfont: {
-                        color: '#94a3b8'
-                    }
-                },
-                paper_bgcolor: 'rgba(15, 23, 42, 0)',
-                plot_bgcolor: 'rgba(15, 23, 42, 0.3)',
-                font: { color: '#f1f5f9' },
-                legend: { 
-                    font: { 
-                        color: '#cbd5e1',
-                        size: 12
-                    },
-                    bgcolor: 'rgba(30, 41, 59, 0.9)',
-                    bordercolor: 'rgba(99, 102, 241, 0.3)',
-                    borderwidth: 1,
-                    x: 0.02,
-                    y: 0.98,
-                    yanchor: 'top'
-                },
-                margin: { t: 60, r: 30, b: 60, l: 60 },
-                hovermode: 'closest'
-            };
-            
-            // Clear and create the graph
-            graphVector.innerHTML = '';
-            Plotly.newPlot(graphVector, data, layout, { 
-                responsive: true,
-                displayModeBar: true,
                 displaylogo: false
             });
         }
