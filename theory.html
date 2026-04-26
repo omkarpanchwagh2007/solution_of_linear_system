@@ -244,6 +244,22 @@
             font-weight: 400;
         }
 
+        .theory-text p {
+            text-align: justify;
+            margin-bottom: 16px;
+        }
+
+        .theory-text ul {
+            margin: 10px 0 18px;
+            padding-left: 24px;
+            text-align: left;
+        }
+
+        .theory-text li {
+            margin-bottom: 8px;
+            color: #444;
+        }
+
         .theory-highlight {
             background: linear-gradient(135deg, #e8f4fc, #f0f7ff);
             border-left: 6px solid #3498db;
@@ -299,6 +315,79 @@
             font-weight: 500;
             line-height: 1.8;
         }
+
+        /* Matrix Equation Styling */
+        .matrix-equation {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+            padding: 25px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 12px;
+            border: 1px solid #dee2e6;
+        }
+
+        .matrix-block {
+            display: inline-block;
+        }
+
+        .matrix-block table {
+            border-collapse: collapse;
+            margin: 0;
+        }
+
+        .matrix-block td {
+            padding: 8px 12px;
+            text-align: center;
+            font-family: 'Cambria Math', 'Latin Modern Math', serif;
+            font-size: 1.1rem;
+            color: #2c3e50;
+        }
+
+        .matrix-a table {
+            border-left: 3px solid #2c3e50;
+            border-right: 3px solid #2c3e50;
+            border-radius: 8px;
+        }
+
+        .matrix-x table {
+            border-left: 3px solid #3498db;
+            border-right: 3px solid #3498db;
+            border-radius: 8px;
+        }
+
+        .matrix-b table {
+            border-left: 3px solid #27ae60;
+            border-right: 3px solid #27ae60;
+            border-radius: 8px;
+        }
+
+        .equals {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .matrix-description {
+            list-style: disc;
+            padding-left: 20px;
+            margin-top: 15px;
+        }
+
+        .matrix-description li {
+            margin-bottom: 10px;
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.7;
+            text-align: left;
+        }
+
+        .matrix-description strong {
+            color: #2c3e50;
+        }
+        
 
         /* Sidebar */
         .theory-sidebar {
@@ -510,8 +599,8 @@
             <div class="breadcrumb">
                 <a href="index.html">Home</a> <span>></span> Theory
             </div>
-            <h2>Theoretical Background</h2>
-            <p>Linear System Solver Virtual Lab - Engineering Mathematics</p>
+            <h2><i class="fas fa-book"></i> Theory</h2>
+            <p>Engineering Mathematics</p>
         </div>
 
         <!-- Theory Content -->
@@ -520,14 +609,42 @@
                 <h3><i class="fas fa-book"></i> Theory of Linear Systems</h3>
                 
                 <div class="theory-text">
-                    <p>A system of linear equations is a collection of one or more linear equations involving the same set of variables. For example, a system with <em>m</em> equations and <em>n</em> unknowns can be written in matrix form as <strong>Ax = B</strong>, where <strong>A</strong> is an <em>m × n</em> coefficient matrix, <strong>x</strong> is an <em>n × 1</em> column vector of unknowns, and <strong>B</strong> is an <em>m × 1</em> column vector of constants.</p>
+                    <p>A system of linear equations is a set of one or more linear equations involving the same set of variables. The equations can be written as <br><strong>Ax = B</strong>, where <strong>A</strong> is a coefficient matrix, <strong>x</strong> is a column vector of unknowns, and <strong>B</strong> is a column vector of constants.</p>
                     
-                    <div class="equation">
-                        a₁₁x₁ + a₁₂x₂ + ... + a₁ₙxₙ = b₁<br>
-                        a₂₁x₁ + a₂₂x₂ + ... + a₂ₙxₙ = b₂<br>
-                        ⋮<br>
-                        aₘ₁x₁ + aₘ₂x₂ + ... + aₘₙxₙ = bₘ
+                    <div class="matrix-equation">
+                        <div class="matrix-block matrix-a">
+                            <table>
+                                <tr><td>a₁₁</td><td>a₁₂</td><td>⋯</td><td>a₁ₙ</td></tr>
+                                <tr><td>a₂₁</td><td>a₂₂</td><td>⋯</td><td>a₂ₙ</td></tr>
+                                <tr><td>⋮</td><td>⋮</td><td>⋮</td><td>⋮</td></tr>
+                                <tr><td>aₘ₁</td><td>aₘ₂</td><td>⋯</td><td>aₘₙ</td></tr>
+                            </table>
+                        </div>
+                        <div class="matrix-block matrix-x">
+                            <table>
+                                <tr><td>x₁</td></tr>
+                                <tr><td>x₂</td></tr>
+                                <tr><td>⋮</td></tr>
+                                <tr><td>xₙ</td></tr>
+                            </table>
+                        </div>
+                        <div class="equals">=</div>
+                        <div class="matrix-block matrix-b">
+                            <table>
+                                <tr><td>b₁</td></tr>
+                                <tr><td>b₂</td></tr>
+                                <tr><td>⋮</td></tr>
+                                <tr><td>bₘ</td></tr>
+                            </table>
+                        </div>
                     </div>
+                    
+                    <p>Where:</p>
+                    <ul class="matrix-description">
+                        <li><strong>A</strong> = Coefficient matrix of size m × n</li>
+                        <li><strong>x</strong> = Column vector of unknowns [x₁, x₂, ..., xₙ]</li>
+                        <li><strong>B</strong> = Column vector of constants [b₁, b₂, ..., bₘ]</li>
+                    </ul>
                     
                     <p>Solutions to linear systems can be classified as:</p>
                 </div>
@@ -541,6 +658,43 @@
                     </ul>
                 </div>
 
+                <h3><i class="fas fa-layer-group"></i> Rank of a Matrix</h3>
+                
+                <div class="theory-text">
+                    <p>The <strong>rank</strong> of a matrix is the maximum number of linearly independent rows (or columns) in the matrix.</p>
+                    
+                    <h4><strong>Definition:</strong></h4>
+                    <p>A natural number "r" is said to be rank of matrix A if and only if:</p>
+                    <ul>
+                        <li>There exists at least one non-zero minor of order r in A</li>
+                        <li>All minors of order (r+1) in A are zero, if they exist</li>
+                    </ul>
+                </div>
+
+                <h3><i class="fas fa-stream"></i> Row Echelon Form</h3>
+                
+                <div class="theory-text">
+                    <p>A matrix is in <strong>row echelon form</strong> if it satisfies two conditions:</p>
+                    
+                    <div class="theory-highlight">
+                        <p><strong>Conditions for Row Echelon Form:</strong></p>
+                        <ul>
+                            <li>First 'r' rows are non-zero and remaining rows are zero (if exist).</li>
+                            <li>In first 'r' non-zero rows, first element of each row is to the right of the first element of the preceding row.</li>
+                        </ul>
+                    </div>
+                    
+                    <h4><strong>Example of Row Echelon Form:</strong></h4>
+                    <div class="matrix-equation" style="padding: 20px;">
+                        <div class="matrix-block" style="border-left: 3px solid #2c3e50; border-right: 3px solid #2c3e50; border-radius: 8px;">
+                            <table>
+                                <tr><td>1</td><td>2</td><td>3</td><td>4</td></tr>
+                                <tr><td>0</td><td>5</td><td>6</td><td>7</td></tr>
+                                <tr><td>0</td><td>0</td><td>8</td><td>9</td></tr>
+                            </table>
+                        </div>
+                        </div>
+                        
                 <h3><i class="fas fa-calculator"></i> Gaussian Elimination Method</h3>
                 
                 <div class="theory-text">
@@ -557,31 +711,6 @@
                     
                     <p>The goal of Gaussian elimination is to transform the augmented matrix [A|B] into row-echelon form or reduced row-echelon form through these operations.</p>
                     
-                    <h4><i class="fas fa-sync-alt"></i> Partial Pivoting</h4>
-                    <p>Partial pivoting is a technique used to improve numerical stability by selecting the largest absolute value element in the current column as the pivot element. This helps reduce rounding errors when solving systems with floating-point arithmetic.</p>
-                </div>
-
-                <h3><i class="fas fa-chart-line"></i> Geometric Interpretation</h3>
-                
-                <div class="theory-text">
-                    <p>Linear systems have intuitive geometric interpretations:</p>
-                    
-                    <div class="theory-highlight">
-                        <ul>
-                            <li>In 2D, each equation represents a line. The solution is the intersection point(s)</li>
-                            <li>In 3D, each equation represents a plane. The solution is the intersection line(s) or point</li>
-                            <li>Matrix transformations can be visualized as vector field operations</li>
-                        </ul>
-                    </div>
-                    
-                    <p>For a 2×2 system:</p>
-                    
-                    <div class="equation">
-                        a₁₁x + a₁₂y = b₁<br>
-                        a₂₁x + a₂₂y = b₂
-                    </div>
-                    
-                    <p>The solution corresponds to the intersection point of the two lines represented by these equations. If the lines are parallel (no intersection), the system has no solution. If the lines coincide (identical), the system has infinitely many solutions.</p>
                 </div>
             </div>
         </div>
@@ -589,7 +718,7 @@
 
     <!-- Footer -->
     <footer class="container">
-        <p>Virtual Labs &copy; 2025 | Applied Sciences & Humanities Department | 
+        <p>| Applied Sciences & Humanities Department | 
            <span class="footer-logo">Pimpri Chinchwad College of Engineering</span>
         </p>
     </footer>
