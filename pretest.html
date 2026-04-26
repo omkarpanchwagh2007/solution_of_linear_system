@@ -765,86 +765,399 @@
         <!-- Test Container -->
         <div class="test-container">
             <div class="test-info">
-                <p><strong>Instructions:</strong> Answer all 5 questions. Each question is worth 2 marks. For calculation questions, enter the numerical answer in the provided box.</p>
+                <p><strong>Instructions:</strong> Answer all 10 questions. Each question is worth 2 marks. Select the correct option for each answer.</p>
                 <p><strong>Note:</strong> This is a pretest to assess your baseline knowledge. Your score will help guide your learning.</p>
                 <p><strong>Scoring:</strong> You will receive your score and detailed answer explanations after submission.</p>
             </div>
 
             <form id="pretestForm">
-                <!-- Question 1: Calculation-based -->
+                <div class="section-title" style="font-size: 1.05rem; font-weight: 700; margin-bottom: 15px;">Section 1: Matrix Forms & Operations</div>
+
+                <!-- Question 1 -->
                 <div class="question">
                     <div class="question-header">
                         <div class="question-number">
-                            <i class="fas fa-calculator"></i> Question 1
+                            <i class="fas fa-question-circle"></i> Question 1
                         </div>
                         <div class="question-marks">2 Marks</div>
                     </div>
                     <div class="question-text">
-                        Solve the following system of linear equations:
-                        <div class="equation-container">
-                            <div>x + 2y = 5</div>
-                            <div>3x - y = 1</div>
-                        </div>
-                        What is the value of x?
+                        Which of the following matrices is in Row Echelon Form (REF)?
                     </div>
                     <div class="options-container">
-                        <input type="number" id="q1" name="q1" class="calculation-input" placeholder="Enter your answer" step="any">
+                        <div class="option">
+                            <input type="radio" id="q1a" name="q1" value="a" class="option-input">
+                            <label for="q1a" class="option-label">A)
+                                <div class="matrix-display" style="margin-left: 10px; display: inline-flex; vertical-align: middle;">
+                                    <span class="matrix-bracket-left">[</span>
+                                    <div class="matrix-content">
+                                        <div class="matrix-row"><span class="matrix-element">1</span><span class="matrix-element">0</span><span class="matrix-element">0</span></div>
+                                        <div class="matrix-row"><span class="matrix-element">2</span><span class="matrix-element">0</span><span class="matrix-element">1</span></div>
+                                        <div class="matrix-row"><span class="matrix-element">3</span><span class="matrix-element">1</span><span class="matrix-element">0</span></div>
+                                    </div>
+                                    <span class="matrix-bracket-right">]</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1b" name="q1" value="b" class="option-input">
+                            <label for="q1b" class="option-label">B)
+                                <div class="matrix-display" style="margin-left: 10px; display: inline-flex; vertical-align: middle;">
+                                    <span class="matrix-bracket-left">[</span>
+                                    <div class="matrix-content">
+                                        <div class="matrix-row"><span class="matrix-element">1</span><span class="matrix-element">0</span><span class="matrix-element">0</span></div>
+                                        <div class="matrix-row"><span class="matrix-element">5</span><span class="matrix-element">1</span><span class="matrix-element">0</span></div>
+                                        <div class="matrix-row"><span class="matrix-element">2</span><span class="matrix-element">4</span><span class="matrix-element">1</span></div>
+                                    </div>
+                                    <span class="matrix-bracket-right">]</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1c" name="q1" value="c" class="option-input">
+                            <label for="q1c" class="option-label">C)
+                                <div class="matrix-display" style="margin-left: 10px; display: inline-flex; vertical-align: middle;">
+                                    <span class="matrix-bracket-left">[</span>
+                                    <div class="matrix-content">
+                                        <div class="matrix-row"><span class="matrix-element">0</span><span class="matrix-element">1</span><span class="matrix-element">0</span></div>
+                                        <div class="matrix-row"><span class="matrix-element">1</span><span class="matrix-element">0</span><span class="matrix-element">0</span></div>
+                                        <div class="matrix-row"><span class="matrix-element">0</span><span class="matrix-element">0</span><span class="matrix-element">1</span></div>
+                                    </div>
+                                    <span class="matrix-bracket-right">]</span>
+                                </div>
+                            </label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q1d" name="q1" value="d" class="option-input">
+                            <label for="q1d" class="option-label">D)
+                                <div class="matrix-display" style="margin-left: 10px; display: inline-flex; vertical-align: middle;">
+                                    <span class="matrix-bracket-left">[</span>
+                                    <div class="matrix-content">
+                                        <div class="matrix-row"><span class="matrix-element">1</span><span class="matrix-element">1</span><span class="matrix-element">1</span></div>
+                                        <div class="matrix-row"><span class="matrix-element">0</span><span class="matrix-element">1</span><span class="matrix-element">1</span></div>
+                                        <div class="matrix-row"><span class="matrix-element">0</span><span class="matrix-element">0</span><span class="matrix-element">1</span></div>
+                                    </div>
+                                    <span class="matrix-bracket-right">]</span>
+                                </div>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Question 2: Multiple choice -->
+                <!-- Question 2 -->
                 <div class="question">
                     <div class="question-header">
                         <div class="question-number">
-                            <i class="fas fa-calculator"></i> Question 2
+                            <i class="fas fa-question-circle"></i> Question 2
                         </div>
                         <div class="question-marks">2 Marks</div>
                     </div>
                     <div class="question-text">
-                        Which of the following is NOT a method for solving linear systems?
+                        To transform the first column of
+                        <span class="matrix-display" style="margin: 0 15px; display: inline-flex; vertical-align: middle;">
+                            <span class="matrix-bracket-left">[</span>
+                            <div class="matrix-content">
+                                <div class="matrix-row"><span class="matrix-element">1</span><span class="matrix-element">3</span></div>
+                                <div class="matrix-row"><span class="matrix-element">2</span><span class="matrix-element">4</span></div>
+                            </div>
+                            <span class="matrix-bracket-right">]</span>
+                        </span>
+                        into
+                        <span class="matrix-display" style="margin: 0 15px; display: inline-flex; vertical-align: middle;">
+                            <span class="matrix-bracket-left">[</span>
+                            <div class="matrix-content">
+                                <div class="matrix-row"><span class="matrix-element">1</span><span class="matrix-element">0</span></div>
+                                <div class="matrix-row"><span class="matrix-element">2</span><span class="matrix-element">-2</span></div>
+                            </div>
+                            <span class="matrix-bracket-right">]</span>
+                        </span>
+                        using Gaussian elimination, which row operation is required?
                     </div>
                     <div class="options-container">
                         <div class="option">
                             <input type="radio" id="q2a" name="q2" value="a" class="option-input">
-                            <label for="q2a" class="option-label">Gaussian elimination</label>
+                            <label for="q2a" class="option-label">A) R₂ → R₂ + 3R₁</label>
                         </div>
                         <div class="option">
                             <input type="radio" id="q2b" name="q2" value="b" class="option-input">
-                            <label for="q2b" class="option-label">Cramer's rule</label>
+                            <label for="q2b" class="option-label">B) R₁ → R₁ − 3R₂</label>
                         </div>
                         <div class="option">
                             <input type="radio" id="q2c" name="q2" value="c" class="option-input">
-                            <label for="q2c" class="option-label">Euler's method</label>
+                            <label for="q2c" class="option-label">C) R₂ → R₂ − 3R₁</label>
                         </div>
                         <div class="option">
                             <input type="radio" id="q2d" name="q2" value="d" class="option-input">
-                            <label for="q2d" class="option-label">Matrix inversion</label>
+                            <label for="q2d" class="option-label">D) R₂ → R₂ − R₁</label>
                         </div>
                     </div>
                 </div>
 
-                <!-- Question 3: Calculation-based -->
+                <!-- Question 3 -->
                 <div class="question">
                     <div class="question-header">
                         <div class="question-number">
-                            <i class="fas fa-calculator"></i> Question 3
+                            <i class="fas fa-question-circle"></i> Question 3
                         </div>
                         <div class="question-marks">2 Marks</div>
                     </div>
                     <div class="question-text">
-                        Calculate the determinant of the following 2×2 matrix:
-                        <div class="matrix-container">
-                            <span class="matrix-label">A =</span>
+                        Which of these is NOT a valid elementary row operation?
+                    </div>
+                    <div class="options-container">
+                        <div class="option">
+                            <input type="radio" id="q3a" name="q3" value="a" class="option-input">
+                            <label for="q3a" class="option-label">A) Interchanging any two rows.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q3b" name="q3" value="b" class="option-input">
+                            <label for="q3b" class="option-label">B) Multiplying a row by a non-zero constant.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q3c" name="q3" value="c" class="option-input">
+                            <label for="q3c" class="option-label">C) Adding a multiple of one row to another.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q3d" name="q3" value="d" class="option-input">
+                            <label for="q3d" class="option-label">D) Squaring all elements in a row to remove negative signs.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 4 -->
+                <div class="question">
+                    <div class="question-header">
+                        <div class="question-number">
+                            <i class="fas fa-question-circle"></i> Question 4
+                        </div>
+                        <div class="question-marks">2 Marks</div>
+                    </div>
+                    <div class="question-text">
+                        A matrix is in Reduced Row Echelon Form (RREF) only if:
+                    </div>
+                    <div class="options-container">
+                        <div class="option">
+                            <input type="radio" id="q4a" name="q4" value="a" class="option-input">
+                            <label for="q4a" class="option-label">A) All diagonal elements are 1.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q4b" name="q4" value="b" class="option-input">
+                            <label for="q4b" class="option-label">B) It is a square matrix.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q4c" name="q4" value="c" class="option-input">
+                            <label for="q4c" class="option-label">C) Each leading 1 is the only non-zero entry in its column.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q4d" name="q4" value="d" class="option-input">
+                            <label for="q4d" class="option-label">D) There are no zero rows.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title" style="font-size: 1.05rem; font-weight: 700; margin: 35px 0 15px;">Section 2: Determinants &amp; Cramer’s Rule</div>
+
+                <!-- Question 5 -->
+                <div class="question">
+                    <div class="question-header">
+                        <div class="question-number">
+                            <i class="fas fa-question-circle"></i> Question 5
+                        </div>
+                        <div class="question-marks">2 Marks</div>
+                    </div>
+                    <div class="question-text">
+                        Calculate the determinant of the matrix: A =
+                        <span class="matrix-display" style="margin-left: 12px; display: inline-flex; vertical-align: middle;">
+                            <span class="matrix-bracket-left">[</span>
+                            <div class="matrix-content">
+                                <div class="matrix-row"><span class="matrix-element">4</span><span class="matrix-element">1</span></div>
+                                <div class="matrix-row"><span class="matrix-element">2</span><span class="matrix-element">3</span></div>
+                            </div>
+                            <span class="matrix-bracket-right">]</span>
+                        </span>
+                    </div>
+                    <div class="options-container">
+                        <div class="option">
+                            <input type="radio" id="q5a" name="q5" value="a" class="option-input">
+                            <label for="q5a" class="option-label">A) 10</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5b" name="q5" value="b" class="option-input">
+                            <label for="q5b" class="option-label">B) 14</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5c" name="q5" value="c" class="option-input">
+                            <label for="q5c" class="option-label">C) 5</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q5d" name="q5" value="d" class="option-input">
+                            <label for="q5d" class="option-label">D) 12</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 6 -->
+                <div class="question">
+                    <div class="question-header">
+                        <div class="question-number">
+                            <i class="fas fa-question-circle"></i> Question 6
+                        </div>
+                        <div class="question-marks">2 Marks</div>
+                    </div>
+                    <div class="question-text">
+                        What is the determinant of a 3×3 Identity Matrix?
+                    </div>
+                    <div class="options-container">
+                        <div class="option">
+                            <input type="radio" id="q6a" name="q6" value="a" class="option-input">
+                            <label for="q6a" class="option-label">A) 0</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6b" name="q6" value="b" class="option-input">
+                            <label for="q6b" class="option-label">B) 3</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6c" name="q6" value="c" class="option-input">
+                            <label for="q6c" class="option-label">C) 1</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q6d" name="q6" value="d" class="option-input">
+                            <label for="q6d" class="option-label">D) undefined</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 7 -->
+                <div class="question">
+                    <div class="question-header">
+                        <div class="question-number">
+                            <i class="fas fa-question-circle"></i> Question 7
+                        </div>
+                        <div class="question-marks">2 Marks</div>
+                    </div>
+                    <div class="question-text">
+                        Using Cramer's Rule for a system AX = B, if |A| = 5 and |Aₓ| = 20, what is the value of x?
+                    </div>
+                    <div class="options-container">
+                        <div class="option">
+                            <input type="radio" id="q7a" name="q7" value="a" class="option-input">
+                            <label for="q7a" class="option-label">A) 1/4</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7b" name="q7" value="b" class="option-input">
+                            <label for="q7b" class="option-label">B) 4</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7c" name="q7" value="c" class="option-input">
+                            <label for="q7c" class="option-label">C) 15</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q7d" name="q7" value="d" class="option-input">
+                            <label for="q7d" class="option-label">D) 100</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 8 -->
+                <div class="question">
+                    <div class="question-header">
+                        <div class="question-number">
+                            <i class="fas fa-question-circle"></i> Question 8
+                        </div>
+                        <div class="question-marks">2 Marks</div>
+                    </div>
+                    <div class="question-text">
+                        If a 3×3 matrix M has a row of all zeros, what is its determinant?
+                    </div>
+                    <div class="options-container">
+                        <div class="option">
+                            <input type="radio" id="q8a" name="q8" value="a" class="option-input">
+                            <label for="q8a" class="option-label">A) 1</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q8b" name="q8" value="b" class="option-input">
+                            <label for="q8b" class="option-label">B) It depends on the other rows.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q8c" name="q8" value="c" class="option-input">
+                            <label for="q8c" class="option-label">C) 0</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q8d" name="q8" value="d" class="option-input">
+                            <label for="q8d" class="option-label">D) -1</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section-title" style="font-size: 1.05rem; font-weight: 700; margin: 35px 0 15px;">Section 3: System Solutions &amp; Rank</div>
+
+                <!-- Question 9 -->
+                <div class="question">
+                    <div class="question-header">
+                        <div class="question-number">
+                            <i class="fas fa-question-circle"></i> Question 9
+                        </div>
+                        <div class="question-marks">2 Marks</div>
+                    </div>
+                    <div class="question-text">
+                        If a system of 3 equations with 3 variables is reduced to REF and results in a row like
+                        <span class="matrix-display" style="margin: 0 8px; display: inline-flex; vertical-align: middle;">
+                            <span class="matrix-bracket-left">[</span>
+                            <div class="matrix-content" style="padding: 10px 5px; border:none;">
+                                <div class="matrix-row"><span class="matrix-element">0</span><span class="matrix-element">0</span><span class="matrix-element">0</span><span class="matrix-element">|</span><span class="matrix-element">7</span></div>
+                            </div>
+                            <span class="matrix-bracket-right">]</span>
+                        </span>
+                        the system has:
+                    </div>
+                    <div class="options-container">
+                        <div class="option">
+                            <input type="radio" id="q9a" name="q9" value="a" class="option-input">
+                            <label for="q9a" class="option-label">A) One unique solution.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q9b" name="q9" value="b" class="option-input">
+                            <label for="q9b" class="option-label">B) Infinitely many solutions.</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q9c" name="q9" value="c" class="option-input">
+                            <label for="q9c" class="option-label">C) No solution (Inconsistent).</label>
+                        </div>
+                        <div class="option">
+                            <input type="radio" id="q9d" name="q9" value="d" class="option-input">
+                            <label for="q9d" class="option-label">D) A solution where z = 7.</label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Question 10 -->
+                <div class="question">
+                    <div class="question-header">
+                        <div class="question-number">
+                            <i class="fas fa-question-circle"></i> Question 10
+                        </div>
+                        <div class="question-marks">2 Marks</div>
+                    </div>
+                    <div class="question-text">
+                        What is the rank of the following matrix?
+                        <div class="matrix-container" style="margin-top: 15px;">
                             <div class="matrix-display">
                                 <span class="matrix-bracket-left">[</span>
                                 <div class="matrix-content">
                                     <div class="matrix-row">
-                                        <span class="matrix-element">4</span>
-                                        <span class="matrix-element">3</span>
+                                        <span class="matrix-element">1</span>
+                                        <span class="matrix-element">0</span>
+                                        <span class="matrix-element">0</span>
+                                    </div>
+                                    <div class="matrix-row">
+                                        <span class="matrix-element">0</span>
+                                        <span class="matrix-element">1</span>
+                                        <span class="matrix-element">0</span>
                                     </div>
                                     <div class="matrix-row">
                                         <span class="matrix-element">2</span>
-                                        <span class="matrix-element">5</span>
+                                        <span class="matrix-element">3</span>
+                                        <span class="matrix-element">0</span>
                                     </div>
                                 </div>
                                 <span class="matrix-bracket-right">]</span>
@@ -852,88 +1165,21 @@
                         </div>
                     </div>
                     <div class="options-container">
-                        <input type="number" id="q3" name="q3" class="calculation-input" placeholder="Enter your answer" step="any">
-                    </div>
-                </div>
-
-                <!-- Question 4: Calculation-based -->
-                <div class="question">
-                    <div class="question-header">
-                        <div class="question-number">
-                            <i class="fas fa-calculator"></i> Question 4
-                        </div>
-                        <div class="question-marks">2 Marks</div>
-                    </div>
-                    <div class="question-text">
-                        For the matrix equation Ax = B, where:
-                        <div class="equation-container">
-                            <div class="matrix-container">
-                                <span class="matrix-label">A =</span>
-                                <div class="matrix-display">
-                                    <span class="matrix-bracket-left">[</span>
-                                    <div class="matrix-content">
-                                        <div class="matrix-row">
-                                            <span class="matrix-element">2</span>
-                                            <span class="matrix-element">-1</span>
-                                        </div>
-                                        <div class="matrix-row">
-                                            <span class="matrix-element">1</span>
-                                            <span class="matrix-element">3</span>
-                                        </div>
-                                    </div>
-                                    <span class="matrix-bracket-right">]</span>
-                                </div>
-                            </div>
-                            <div style="display: flex; align-items: center;">
-                                <span style="font-weight: bold; margin-right: 10px;">B =</span>
-                                <div class="matrix-display">
-                                    <span class="matrix-bracket-left">[</span>
-                                    <div class="matrix-content">
-                                        <div class="matrix-row">
-                                            <span class="matrix-element">3</span>
-                                        </div>
-                                        <div class="matrix-row">
-                                            <span class="matrix-element">7</span>
-                                        </div>
-                                    </div>
-                                    <span class="matrix-bracket-right">]</span>
-                                </div>
-                            </div>
-                        </div>
-                        Calculate the value of x₁ (the first element of solution vector x).
-                    </div>
-                    <div class="options-container">
-                        <input type="number" id="q4" name="q4" class="calculation-input" placeholder="Enter your answer" step="any">
-                    </div>
-                </div>
-
-                <!-- Question 5: Multiple choice -->
-                <div class="question">
-                    <div class="question-header">
-                        <div class="question-number">
-                            <i class="fas fa-calculator"></i> Question 5
-                        </div>
-                        <div class="question-marks">2 Marks</div>
-                    </div>
-                    <div class="question-text">
-                        What is the condition for a system of linear equations to have a unique solution?
-                    </div>
-                    <div class="options-container">
                         <div class="option">
-                            <input type="radio" id="q5a" name="q5" value="a" class="option-input">
-                            <label for="q5a" class="option-label">The determinant of the coefficient matrix is zero</label>
+                            <input type="radio" id="q10a" name="q10" value="a" class="option-input">
+                            <label for="q10a" class="option-label">A) 1</label>
                         </div>
                         <div class="option">
-                            <input type="radio" id="q5b" name="q5" value="b" class="option-input">
-                            <label for="q5b" class="option-label">The rank of the coefficient matrix equals the rank of augmented matrix and equals the number of variables</label>
+                            <input type="radio" id="q10b" name="q10" value="b" class="option-input">
+                            <label for="q10b" class="option-label">B) 2</label>
                         </div>
                         <div class="option">
-                            <input type="radio" id="q5c" name="q5" value="c" class="option-input">
-                            <label for="q5c" class="option-label">The number of equations equals the number of variables</label>
+                            <input type="radio" id="q10c" name="q10" value="c" class="option-input">
+                            <label for="q10c" class="option-label">C) 3</label>
                         </div>
                         <div class="option">
-                            <input type="radio" id="q5d" name="q5" value="d" class="option-input">
-                            <label for="q5d" class="option-label">All equations are linearly dependent</label>
+                            <input type="radio" id="q10d" name="q10" value="d" class="option-input">
+                            <label for="q10d" class="option-label">D) 0</label>
                         </div>
                     </div>
                 </div>
@@ -956,7 +1202,7 @@
 
             <!-- Score Display -->
             <div class="score-display">
-                <div class="score-value" id="scoreValue">0/10</div>
+                <div class="score-value" id="scoreValue">0/20</div>
                 <div class="score-text" id="scoreText">Your Score</div>
                 <div class="score-percentage" id="scorePercentage">0%</div>
             </div>
@@ -990,65 +1236,29 @@
     <script>
         // Correct answers and explanations
         const correctAnswers = {
-            q1: 1, // x = 1
-            q2: "c", // Euler's method is for ODEs, not linear systems
-            q3: 14, // det = (4*5) - (3*2) = 20 - 6 = 14
-            q4: 2, // x₁ = 2
-            q5: "b" // Correct condition for unique solution
+            q1: "b",
+            q2: "c",
+            q3: "d",
+            q4: "c",
+            q5: "a",
+            q6: "c",
+            q7: "b",
+            q8: "c",
+            q9: "c",
+            q10: "b"
         };
 
         const explanations = {
-            q1: `Step-by-step solution:
-1) Given: x + 2y = 5 ...(1)
-          3x - y = 1 ...(2)
-2) Multiply equation (2) by 2: 6x - 2y = 2 ...(3)
-3) Add equation (1) and (3): (x + 2y) + (6x - 2y) = 5 + 2
-4) Simplify: 7x = 7
-5) Therefore: x = 1
-6) Substitute x=1 in equation (1): 1 + 2y = 5 → 2y = 4 → y = 2`,
-            q2: `Explanation of methods:
-• Gaussian elimination: A systematic method for solving linear systems by reducing to row echelon form
-• Cramer's rule: Uses determinants to solve systems with the same number of equations as unknowns
-• Euler's method: Used for solving ordinary differential equations numerically, NOT for linear systems
-• Matrix inversion: If A is invertible, solution is x = A⁻¹B`,
-            q3: `Determinant calculation for 2×2 matrix:
-For matrix A = [[a, b], [c, d]], det(A) = ad - bc
-Given A = [[4, 3], [2, 5]]
-det(A) = (4 × 5) - (3 × 2) = 20 - 6 = 14`,
-            q4: `Solving the system 2x₁ - x₂ = 3 and x₁ + 3x₂ = 7:
-Method 1: Using elimination
-1) Multiply second equation by 2: 2x₁ + 6x₂ = 14
-2) Subtract first equation: (2x₁ + 6x₂) - (2x₁ - x₂) = 14 - 3
-3) Simplify: 7x₂ = 11 → x₂ = 11/7 ≈ 1.571
-4) Substitute into first equation: 2x₁ - (11/7) = 3
-5) Solve: 2x₁ = 3 + 11/7 = (21 + 11)/7 = 32/7
-6) x₁ = 16/7 ≈ 2.2857
-
-Wait, let me recalculate properly:
-Actually: 2x₁ - x₂ = 3 ...(1)
-           x₁ + 3x₂ = 7 ...(2)
-
-From (2): x₁ = 7 - 3x₂
-Substitute in (1): 2(7 - 3x₂) - x₂ = 3
-14 - 6x₂ - x₂ = 3
-14 - 7x₂ = 3
--7x₂ = 3 - 14 = -11
-x₂ = 11/7 ≈ 1.5714
-
-Then x₁ = 7 - 3(11/7) = 7 - 33/7 = (49 - 33)/7 = 16/7 ≈ 2.2857
-
-But let me verify with Cramer's rule:
-det(A) = (2×3) - (-1×1) = 6 - (-1) = 7
-For x₁: replace first column with B: [[3, -1], [7, 3]]
-det = (3×3) - (-1×7) = 9 - (-7) = 16
-x₁ = 16/7 ≈ 2.2857
-
-So the correct answer is 2.2857 or 16/7`,
-            q5: `Conditions for solutions of linear systems:
-• Unique solution: rank(A) = rank([A|B]) = number of variables
-• Infinite solutions: rank(A) = rank([A|B]) < number of variables
-• No solution: rank(A) ≠ rank([A|B])
-• Having the same number of equations and variables is necessary but not sufficient for a unique solution (the equations must also be linearly independent)`
+            q1: "B is the only matrix in REF because the pivot positions move to the right in each lower row and entries below pivots are zero.",
+            q2: "To change 3 into 0 in the first column, you subtract three times the first row from the second row: R₂ → R₂ − 3R₁.",
+            q3: "Squaring all elements in a row is not a valid elementary row operation because it is non-linear and does not preserve the solution set.",
+            q4: "RREF requires each leading 1 to be the only non-zero entry in its column, with zeros above and below each pivot.",
+            q5: "The determinant is 4×3 − 2×1 = 12 − 2 = 10.",
+            q6: "Any identity matrix has determinant 1, including the 3×3 identity matrix.",
+            q7: "Using Cramer's Rule, x = |Aₓ| / |A| = 20 / 5 = 4.",
+            q8: "A matrix with a complete zero row always has determinant 0.",
+            q9: "The row [0 0 0 | 7] represents 0 = 7, which is impossible, so the system is inconsistent with no solution.",
+            q10: "The matrix has two independent non-zero rows in echelon form, so its rank is 2."
         };
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -1159,7 +1369,7 @@ So the correct answer is 2.2857 or 16/7`,
                 const percentage = Math.round((score / (totalQuestions * 2)) * 100);
                 
                 // Update score display
-                scoreValue.textContent = `${score}/10`;
+                scoreValue.textContent = `${score}/20`;
                 scorePercentage.textContent = `${percentage}%`;
                 
                 // Set score text based on performance
